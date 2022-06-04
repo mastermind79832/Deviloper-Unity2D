@@ -20,15 +20,14 @@ namespace Deviloper.Character
 		{
 			Initialize();
 		}
+		private void Initialize()
+		{
+			rb = GetComponent<Rigidbody2D>();
+		}
 
 		private void Update()
 		{
 			GetInput();
-		}
-
-		private void Initialize()
-		{
-			rb = GetComponent<Rigidbody2D>();
 		}
 
 		private void FixedUpdate()
@@ -39,7 +38,7 @@ namespace Deviloper.Character
 		private void MoveCharacter()
 		{
 			Vector2 EffectiveMovement = moveDirection * MoveSpeed * Time.fixedDeltaTime;
-			Vector2 movePosition = new Vector2(transform.position.x + EffectiveMovement.x,transform.position.y + EffectiveMovement.y);
+			Vector2 movePosition = (Vector2)transform.position + EffectiveMovement;
 			rb.MovePosition(movePosition);
 		}
 

@@ -21,10 +21,6 @@ namespace Deviloper.Character
 			rb = GetComponent<Rigidbody2D>();
 		}
 
-		private void Update()
-		{
-		}
-
 		private void FixedUpdate()
 		{
 			MoveToPlayer();
@@ -32,7 +28,7 @@ namespace Deviloper.Character
 
 		private void MoveToPlayer()
 		{
-			rb.MovePosition( Vector2.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime));
+			rb.MovePosition(Vector2.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime));
 		}
 	}
 }
