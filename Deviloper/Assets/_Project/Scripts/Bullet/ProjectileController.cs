@@ -5,13 +5,10 @@ using UnityEngine;
 
 namespace Deviloper.Projectile
 {
-    public class ProjectileMovement : MonoBehaviour
+    public class ProjectileController : MonoBehaviour
     {
         public float moveSpeed;
-
         public Vector2 direction;
-
-
 		private void FixedUpdate()
 		{
 			MoveProjectile();
