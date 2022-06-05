@@ -8,7 +8,8 @@ namespace Deviloper.Character
     {
 		[Header("Player")]
         public PlayerController playerPrefab;
-        
+
+		[Header("Enemy")]
         public List<EnemyController> enemyPrefabs;
 
         public PlayerController CreatePlayer(Transform location)
@@ -16,9 +17,10 @@ namespace Deviloper.Character
             return Instantiate(playerPrefab,location.position,location.rotation);
 		}
 
-        public EnemyController CreateEnemy(Transform location)// add type here
+        public EnemyController CreateEnemy(Vector2 location,EnemyController enemyPreafb)// add type here
 		{
-            return Instantiate(enemyPrefabs[0], location.position, location.rotation);
+            return Instantiate(enemyPreafb, location, Quaternion.identity);
         }
     }
 }
+   

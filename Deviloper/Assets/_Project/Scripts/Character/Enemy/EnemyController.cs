@@ -11,7 +11,7 @@ namespace Deviloper.Character
     public class EnemyController : MonoBehaviour
     {
 		[Header("Movement")]
-		[Range(2,25)]
+		[Range(0,25)]
 		public float moveSpeed;
 
 		private Rigidbody2D rb;
@@ -31,6 +31,15 @@ namespace Deviloper.Character
 		private void MoveToPlayer()
 		{
 			rb.MovePosition(Vector2.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime));
+		}
+
+		private void OnTriggerEnter2D(Collider2D collision)
+		{
+			if(collision.CompareTag("Finish"))
+			{
+				CharacterService.Instance.EnemyDeath(this);
+				Destroy(gameObject);
+			}
 		}
 	}
 }
