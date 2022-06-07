@@ -18,8 +18,6 @@ namespace Deviloper.stage
         private float spawnTimer = 0;
 		private float nextStageTimer = 0;
 
-        public EnemyController GetRandomEnemy() => enemyList[Random.Range(0, enemyList.Count)];
-
 		private StageService stageService;
 
 		public void SetStageService() => stageService = StageService.Instance;
@@ -72,11 +70,11 @@ namespace Deviloper.stage
 				enemyCount--;
 			}
 		}
+        public EnemyController GetRandomEnemy() => enemyList[Random.Range(0, enemyList.Count)];
 
 		private void ResetEnemyTimer() => spawnTimer = 0;
-
 		public bool IsEnemyOver() => enemyCount == 0;
-
 		public bool IsStageOver() => nextStageTimer >= nextStageTimeOut;
+
 	}
 }

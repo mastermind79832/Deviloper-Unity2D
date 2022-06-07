@@ -43,12 +43,14 @@ namespace Deviloper.Service.Character
 			int isNegative = Random.Range(-1, 2);
 			if (isNegative == 0)
 				isNegative = 1;
-			return Random.Range(enemySpawnRadius * isNegative, (enemySpawnRadius + 11)*isNegative);
+			return Random.Range(enemySpawnRadius * isNegative, (enemySpawnRadius + 11) * isNegative);
 		}
 
-		public void SpawnEnemy(EnemyController enemyPrefab)
+		public void SpawnEnemy(EnemyController enemyPrefab, int stageLevel)
 		{
-			enemies.Add(factory.CreateEnemy(GetEnemySpawn(),enemyPrefab));
+			EnemyController newEnemy = factory.CreateEnemy(GetEnemySpawn(), enemyPrefab);
+			newEnemy.SetStats(stageLevel);
+			enemies.Add(newEnemy);
 		}
 
 		public bool IsEnemyListEmpty() => enemies.Count == 0;

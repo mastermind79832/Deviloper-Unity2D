@@ -51,7 +51,7 @@ namespace Deviloper.Service.Stage
 
 		public void SpawnEnemy(EnemyController enemyPrefab)
 		{
-            characterService.SpawnEnemy(enemyPrefab);
+            characterService.SpawnEnemy(enemyPrefab,currentStage.level);
 		}
 
 		public void StartNextStage()
