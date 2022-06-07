@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Deviloper.Service.Character;
 
 namespace Deviloper.Character
 {
@@ -14,11 +15,12 @@ namespace Deviloper.Character
 		public float moveSpeed;
 
 		private Rigidbody2D rb;
-		public Transform player;
+		private Transform player;
 
 		private void Start()
 		{
 			rb = GetComponent<Rigidbody2D>();
+			player = CharacterService.Instance.GetPlayerTransform();
 		}
 
 		private void FixedUpdate()
