@@ -1,30 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Deviloper.Pickup;
 
 namespace Deviloper.Character
 {
     public class Vallet : MonoBehaviour
     {
-        private int Coin;
+        private int vallet;
 
 		private void Start()
 		{
-			Coin = 0;
+			vallet = 0;
 		}
 
-		public int GetCoin() => Coin;
+		public int GetCoin() => vallet;
 
 		public void UseCoin(int amount)
 		{
-			Coin -= amount;
+			vallet -= amount;
 		}
 
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
-			if(collision.CompareTag("Coin")) // check for pickable
-			{ 
-				// Get from pickable
+			CoinPickup coinPickup = collision.GetComponent<CoinPickup>();
+			if (coinPickup)
+			{
+				vallet += coinPickup.Pickup();
+				coinPickup.gameObject.SetActive(false);
+				return;
 			}
 		}
 	}

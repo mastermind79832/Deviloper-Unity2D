@@ -4,14 +4,19 @@ using Deviloper.Core;
 
 namespace Deviloper.Pickup
 {
+
 	public class PickupFactory : MonoSingletonGeneric<PickupFactory>
 	{
+
 		[System.Serializable]
-        public struct PickupTypePair
+		public class PickupTypePair
 		{
-            public PickupType type;
-            public Pickupable pickupPrefab;
+			public PickupType type;
+			public Pickupable pickupPrefab;
 			public ObjectPool<Pickupable> pool;
+
+			PickupTypePair() =>
+				pool = new ObjectPool<Pickupable>();
 		}
 
 		public List<PickupTypePair> pickupPairs;

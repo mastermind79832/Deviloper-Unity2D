@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Deviloper.Pickup;
 
 namespace Deviloper.Character
 {
     public class BloodBag : MonoBehaviour
     {
-		private int healthBag;
+		private float healthBag;
 		public float healRate; // health/Sec
 
 		private Coroutine routine;
@@ -20,9 +21,12 @@ namespace Deviloper.Character
 
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
-			if (collision.CompareTag("Health")) // check for pickable
+			HealthPickup healthPickup = collision.GetComponent<HealthPickup>();
+			if (healthPickup)
 			{
-				// Get from pickable
+				healthBag += healthPickup.Pickup();
+				healthPickup.gameObject.SetActive(false);
+				return;
 			}
 
 			if (collision.CompareTag("Stronghold"))

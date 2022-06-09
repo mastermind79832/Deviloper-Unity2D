@@ -24,7 +24,6 @@ namespace Deviloper.Pickup
 
 		private void OnDisable()
 		{
-
 			StopCoroutine(disableCoutdown);
 			PickupFactory.Instance.ReturnPickup(this);
 		}

@@ -1,9 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Deviloper.Service.Character;
 using Deviloper.Core;
+using Deviloper.Pickup;
 
 namespace Deviloper.Character
 {
@@ -20,11 +20,13 @@ namespace Deviloper.Character
 
 		private Rigidbody2D m_Rb;
 		private Transform player;
+		private PickupFactory pickupFactory;
 
 		private void Start()
 		{
 			m_Rb = GetComponent<Rigidbody2D>();
 			player = CharacterService.Instance.GetPlayerTransform();
+			pickupFactory = PickupFactory.Instance;
 		}
 
 		public void SetStats(int stageLevel)
@@ -57,7 +59,34 @@ namespace Deviloper.Character
 			{
 				//You can use Observer Pattern here.
 				CharacterService.Instance.EnemyDeath(this);
+				DropPickup();
 				Destroy(gameObject);
+			}
+		}
+
+		private void DropPickup()
+		{
+			foreach (var drop in enemyBaseStats.dropProperties)
+			{
+				int chance = Random.Range(0,100);
+				if(chance < drop.dropRate)
+				{
+					CreatePickup(drop.pickupType);
+				}
+			}
+		}
+
+		private void CreatePickup(PickupType pickupType)
+		{
+			if(pickupType == PickupType.Coin)
+			{
+				int coinAmount = (int)m_Health;
+				pickupFactory.CreatePickup<int>(pickupType, coinAmount, transform.position);
+			}
+			else if(pickupType == PickupType.Health)
+			{
+				float healthAmount = m_Damage / 2;
+				pickupFactory.CreatePickup<float>(pickupType, healthAmount, transform.position);
 			}
 		}
 	}

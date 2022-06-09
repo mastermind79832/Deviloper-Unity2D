@@ -15,3 +15,8 @@ MonoBehaviour:
   baseHealth: 20
   baseSpeed: 1
   baseDamage: 5
+  dropProperties:
+  - pickupType: 0
+    dropRate: 60
+  - pickupType: 1
+    dropRate: 40
