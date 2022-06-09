@@ -394,16 +394,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stages:
-  - level: 1
-    enemyCount: 10
-    enemyList:
-    - {fileID: 765972614, guid: 7cd4d7f1f37811c48b9196b6f94760bc, type: 3}
-    enemySpawnInterval: 5
-    nextStageTimeOut: 5
+  - {fileID: 11400000, guid: 068044a9eb45b094cad2496f64133c47, type: 2}
   currentStage:
     level: 0
     enemyCount: 0
-    enemyList: []
+    enemyList: 
     enemySpawnInterval: 0
     nextStageTimeOut: 0
 --- !u!1 &843790434
@@ -642,7 +637,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1573619471802775562, guid: 4e8baadee2d34f24aad9df6807d26a9a, type: 3}
   enemyPrefabs:
-  - {fileID: 765972614, guid: 7cd4d7f1f37811c48b9196b6f94760bc, type: 3}
+  - type: 0
+    controller: {fileID: 765972614, guid: 7cd4d7f1f37811c48b9196b6f94760bc, type: 3}
 --- !u!1 &2004300832
 GameObject:
   m_ObjectHideFlags: 0

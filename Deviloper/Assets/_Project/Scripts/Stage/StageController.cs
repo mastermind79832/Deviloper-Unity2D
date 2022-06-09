@@ -11,7 +11,7 @@ namespace Deviloper.stage
     {
         public int level;
         public int enemyCount;
-        public List<EnemyController> enemyList;
+        public List<EnemyType> enemyTypeList;
         public float enemySpawnInterval;
         public float nextStageTimeOut;
 
@@ -22,17 +22,17 @@ namespace Deviloper.stage
 
 		public void SetStageService() => stageService = StageService.Instance;
 
-		public void SetNewStage(int _level, StageController stage)
+		public void SetNewStage(int _level, StagePropertiesSO stage)
 		{
 			level = _level;
 			CopyStageProperties(stage);
 			ResestAllTimer();
 		}
 
-		private void CopyStageProperties(StageController stage)
+		private void CopyStageProperties(StagePropertiesSO stage)
 		{
 			enemyCount = stage.enemyCount;
-			enemyList = stage.enemyList;
+			enemyTypeList = stage.enemyList;
 			enemySpawnInterval = stage.enemySpawnInterval;
 			nextStageTimeOut = stage.nextStageTimeOut;
 		}
@@ -56,9 +56,9 @@ namespace Deviloper.stage
 				stageService.StartNextStage();
 			}
 		}
-
+		public bool IsStageOver() => nextStageTimer >= nextStageTimeOut;
 		private void IncreaseNextStageTimer() => nextStageTimer += Time.deltaTime;
-		private void IncreaseEnemyTimer() => spawnTimer += Time.deltaTime;
+
 
 		private void RunStage()
 		{
@@ -70,11 +70,11 @@ namespace Deviloper.stage
 				enemyCount--;
 			}
 		}
-        public EnemyController GetRandomEnemy() => enemyList[Random.Range(0, enemyList.Count)];
-
+		private void IncreaseEnemyTimer() => spawnTimer += Time.deltaTime;
+        public EnemyType GetRandomEnemy() => enemyTypeList[Random.Range(0, enemyTypeList.Count)];
 		private void ResetEnemyTimer() => spawnTimer = 0;
+
 		public bool IsEnemyOver() => enemyCount == 0;
-		public bool IsStageOver() => nextStageTimer >= nextStageTimeOut;
 
 	}
 }

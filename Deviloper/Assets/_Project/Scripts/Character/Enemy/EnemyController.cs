@@ -55,6 +55,7 @@ namespace Deviloper.Character
 		{
 			if(collision.CompareTag("Finish"))
 			{
+				//You can use Observer Pattern here.
 				CharacterService.Instance.EnemyDeath(this);
 				Destroy(gameObject);
 			}

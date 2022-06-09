@@ -13,6 +13,13 @@ namespace Deviloper.Character
 			Coin = 0;
 		}
 
+		public int GetCoin() => Coin;
+
+		public void UseCoin(int amount)
+		{
+			Coin -= amount;
+		}
+
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
 			if(collision.CompareTag("Coin")) // check for pickable
