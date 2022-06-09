@@ -18,6 +18,16 @@ namespace Deviloper.Character
 		public float baseSpeed;
 		public float baseDamage;
 
+		[System.Serializable]
+		public struct PickupDropProperty
+		{
+			public PickupType pickupType;
+			[Range(0, 100)]
+			[Tooltip("percentage probability of dropping pickup")]
+			public float dropRate;
+		}
+
+		public List<PickupDropProperty> dropProperties;
 
 	}
 }
