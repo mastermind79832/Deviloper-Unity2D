@@ -4,6 +4,7 @@ using UnityEngine;
 using Deviloper.Service.Character;
 using Deviloper.Core;
 using Deviloper.Pickup;
+using Deviloper.Stronghold;
 
 namespace Deviloper.Character
 {
@@ -55,9 +56,11 @@ namespace Deviloper.Character
 
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
-			if(collision.CompareTag("Finish"))
+			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
+			if (stronghold)
 			{
 				//You can use Observer Pattern here.
+				stronghold.TakeDamage(m_Damage);
 				CharacterService.Instance.EnemyDeath(this);
 				DropPickup();
 				Destroy(gameObject);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Deviloper.Pickup;
+using Deviloper.Stronghold;
 
 namespace Deviloper.Character
 {
@@ -29,28 +30,30 @@ namespace Deviloper.Character
 				return;
 			}
 
-			if (collision.CompareTag("Stronghold"))
+			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
+			if (stronghold)
 			{
 				if (healthBag > 0)
 				{
-					routine = StartCoroutine(HealStronghold());
+					routine = StartCoroutine(HealStronghold(stronghold));
 				}
 			}
 		}
 		private void OnTriggerExit2D(Collider2D collision)
 		{
-			if (collision.CompareTag("Stronghold"))
+			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
+			if (stronghold)
 			{
 				StopCoroutine(routine);
 			}
 		}
 
-		IEnumerator HealStronghold()
+		IEnumerator HealStronghold(StrongholdController stronghold)
 		{
 
 			while(healthBag > 0)
 			{
-				//stronghold.increaseHealth(healRate.Key)
+				stronghold.Heal(healRate);
 				yield return new WaitForSeconds(1f);
 			}
 
