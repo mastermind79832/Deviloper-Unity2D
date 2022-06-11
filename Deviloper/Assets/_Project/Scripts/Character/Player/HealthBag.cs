@@ -7,7 +7,7 @@ using Deviloper.Stronghold;
 
 namespace Deviloper.Character
 {
-    public class BloodBag : MonoBehaviour
+    public class HealthBag : MonoBehaviour
     {
 		private float m_HealthBag;
 		public float healAmount; // health/Sec

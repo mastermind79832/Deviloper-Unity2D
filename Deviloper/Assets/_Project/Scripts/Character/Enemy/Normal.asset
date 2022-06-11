@@ -20,3 +20,5 @@ MonoBehaviour:
     dropRate: 60
   - pickupType: 1
     dropRate: 40
+  - pickupType: 1
+    dropRate: 70.5

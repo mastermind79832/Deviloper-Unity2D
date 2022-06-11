@@ -409,7 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stages:
   - {fileID: 11400000, guid: 068044a9eb45b094cad2496f64133c47, type: 2}
-  currentStage:
+  m_CurrentStage:
     level: 0
     enemyCount: 0
     enemyTypeList: 
