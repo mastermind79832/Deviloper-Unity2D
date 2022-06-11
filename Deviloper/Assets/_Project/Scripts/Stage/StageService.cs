@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Deviloper.Core;
 using Deviloper.stage;
 using Deviloper.Character;
 using Deviloper.Service.Character;
-using System;
 
 namespace Deviloper.Service.Stage
 {
@@ -17,9 +15,9 @@ namespace Deviloper.Service.Stage
         public List<StagePropertiesSO> stages;
 
 		[SerializeField]
-        private StageController currentStage;
-		private int currentStageLevel;
-		private int currentStageIndex;
+        private StageController m_CurrentStage;
+		private int m_CurrentStageLevel;
+		private int m_CurrentStageIndex;
 
 		private CharacterService characterService;
 
@@ -31,38 +29,38 @@ namespace Deviloper.Service.Stage
 
 		private void InitializeFirstStage()
 		{
-			currentStage = new StageController();
-			currentStage.SetStageService();
-			currentStageIndex = 0;
-			currentStageLevel = 1;
-			currentStage.SetNewStage(currentStageLevel, stages[currentStageIndex]);
+			m_CurrentStage = new StageController();
+			m_CurrentStage.SetStageService();
+			m_CurrentStageIndex = 0;
+			m_CurrentStageLevel = 1;
+			m_CurrentStage.SetNewStage(m_CurrentStageLevel, stages[m_CurrentStageIndex]);
 		}
 
 		private void Update()
 		{
-			if (characterService.IsEnemyListEmpty() && currentStage.IsEnemyOver())
+			if (characterService.IsEnemyListEmpty() && m_CurrentStage.IsEnemyOver())
 			{
-				currentStage.WaitForNextStage();
+				m_CurrentStage.WaitForNextStage();
 				return;
 			}
 
-			currentStage.Update();
+			m_CurrentStage.Update();
 		}
 
 		public void SpawnEnemy(EnemyType enemyPrefab)
 		{
-            characterService.SpawnEnemy(enemyPrefab,currentStage.level);
+            characterService.SpawnEnemy(enemyPrefab,m_CurrentStage.level);
 		}
 
 		public void StartNextStage()
 		{
-			currentStageLevel++;
-			if (currentStageLevel == stages[currentStageIndex].level)
+			m_CurrentStageLevel++;
+			if (m_CurrentStageLevel == stages[m_CurrentStageIndex].level)
 			{
-				currentStageIndex++;
+				m_CurrentStageIndex++;
 			}
 
-			currentStage.SetNewStage(currentStageLevel, stages[currentStageIndex]);
+			m_CurrentStage.SetNewStage(m_CurrentStageLevel, stages[m_CurrentStageIndex]);
 		}
 	}
 }

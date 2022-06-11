@@ -4,7 +4,6 @@ using Deviloper.Core;
 
 namespace Deviloper.Pickup
 {
-
 	public class PickupFactory : MonoSingletonGeneric<PickupFactory>
 	{
 
@@ -61,7 +60,7 @@ namespace Deviloper.Pickup
 
 		public void ReturnPickup(Pickupable pickup)
 		{
-			PickupTypePair pair = GetTypePair(pickup.PickupType);
+			PickupTypePair pair = GetTypePair(pickup.pickupType);
 			pair.pool.SetItem(pickup);
 		}
 	}

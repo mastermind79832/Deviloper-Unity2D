@@ -114,5 +114,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dcccb40594b7e84792558d2e3a0e821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PickupType: 1
+  pickupType: 1
   aliveTime: 5

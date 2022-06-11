@@ -9,15 +9,15 @@ namespace Deviloper.Character
 {
     public class BloodBag : MonoBehaviour
     {
-		private float healthBag;
-		public float healRate; // health/Sec
+		private float m_HealthBag;
+		public float healAmount; // health/Sec
+		public float healingInterval;
 
-		private Coroutine routine;
-		private List<Coroutine> coroutines = new List<Coroutine>();
+		private Coroutine m_HealingRoutine;
 
 		private void Start()
 		{
-			healthBag = 0;
+			m_HealthBag = 0;
 		}
 
 		private void OnTriggerEnter2D(Collider2D collision)
@@ -25,38 +25,52 @@ namespace Deviloper.Character
 			HealthPickup healthPickup = collision.GetComponent<HealthPickup>();
 			if (healthPickup)
 			{
-				healthBag += healthPickup.Pickup();
+				m_HealthBag += healthPickup.Pickup();
 				healthPickup.gameObject.SetActive(false);
-				return;
 			}
 
 			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
 			if (stronghold)
 			{
-				if (healthBag > 0)
+				if (m_HealthBag > 0)
 				{
-					routine = StartCoroutine(HealStronghold(stronghold));
+					m_HealingRoutine = StartCoroutine(HealStronghold(stronghold));
 				}
 			}
 		}
 		private void OnTriggerExit2D(Collider2D collision)
 		{
 			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
-			if (stronghold)
+			if (stronghold && m_HealingRoutine!= null)
 			{
-				StopCoroutine(routine);
+				StopCoroutine(m_HealingRoutine);
 			}
 		}
 
 		IEnumerator HealStronghold(StrongholdController stronghold)
 		{
-
-			while(healthBag > 0)
+			while(m_HealthBag > 0 & !stronghold.IsHealthFull())
 			{
-				stronghold.Heal(healRate);
-				yield return new WaitForSeconds(1f);
+				yield return new WaitForSeconds(healingInterval);
+				stronghold.Heal(GetEffectiveHealing());
+			}
+		}
+
+		private float GetEffectiveHealing()
+		{
+			float effectiveHealing = 0;
+			if(m_HealthBag < healAmount)
+			{
+				effectiveHealing = m_HealthBag;
+				m_HealthBag = 0;
+			}
+			else
+			{
+				effectiveHealing = healAmount;
+				m_HealthBag -= healAmount;
 			}
 
+			return effectiveHealing;
 		}
 	}
 }

@@ -1,19 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Deviloper.Core;
-using System;
 
 namespace Deviloper.Stronghold
 {
     public class StrongholdController : MonoBehaviour,IDamageable
     {
+		public float maxHealth;
         private float m_Health;
 		private Collider2D m_Collider;
 
 		private void Start()
 		{
 			m_Collider = GetComponent<Collider2D>();
+			m_Health = maxHealth;
 		}
 
 		public void TakeDamage(float damage)
@@ -34,6 +33,10 @@ namespace Deviloper.Stronghold
 				m_Collider.enabled = true;
 
 			m_Health += amount;
+			if (IsHealthFull())
+				m_Health = maxHealth;
 		}
+
+		public bool IsHealthFull() => m_Health >= maxHealth;
 	}
 }

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Deviloper.Character
@@ -9,10 +7,12 @@ namespace Deviloper.Character
 	[RequireComponent(typeof(BoxCollider2D))]
     public class PlayerController : MonoBehaviour
     {
+		private int m_Level;
+
 		[Header("Movement Properties")]
 		[Range(2,25)]
-        public float MoveSpeed;
-        private Vector2 moveDirection;
+        public float moveSpeed;
+        private Vector2 m_MoveDirection;
 		
 		private Rigidbody2D rb;
 
@@ -22,6 +22,7 @@ namespace Deviloper.Character
 		}
 		private void Initialize()
 		{
+			m_Level = 1;
 			rb = GetComponent<Rigidbody2D>();
 		}
 
@@ -37,14 +38,19 @@ namespace Deviloper.Character
 
 		private void MoveCharacter()
 		{
-			Vector2 EffectiveMovement = moveDirection * MoveSpeed * Time.fixedDeltaTime;
+			Vector2 EffectiveMovement = GetEffectiveMoveSpeed() * Time.fixedDeltaTime * m_MoveDirection;
 			Vector2 movePosition = (Vector2)transform.position + EffectiveMovement;
 			rb.MovePosition(movePosition);
 		}
 
+		private float GetEffectiveMoveSpeed()
+		{
+			return moveSpeed + (m_Level / 5);
+		}
+
 		private void GetInput()
 		{
-			moveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+			m_MoveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 		}
 	}
 }
