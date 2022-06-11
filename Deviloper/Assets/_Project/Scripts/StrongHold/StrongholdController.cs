@@ -9,10 +9,13 @@ namespace Deviloper.Stronghold
         private float m_Health;
 		private Collider2D m_Collider;
 
+		public bool isDefenceEnabled { get; private set; }
+
 		private void Start()
 		{
 			m_Collider = GetComponent<Collider2D>();
 			m_Health = maxHealth;
+			isDefenceEnabled = true;
 		}
 
 		public void TakeDamage(float damage)
@@ -24,13 +27,13 @@ namespace Deviloper.Stronghold
 		private void CheckHealth()
 		{
 			if(m_Health <= 0)
-				m_Collider.enabled = false;
+				isDefenceEnabled = false;
 		}
 
 		public void Heal(float amount)
 		{
 			if (!m_Collider.enabled)
-				m_Collider.enabled = true;
+				isDefenceEnabled = true;
 
 			m_Health += amount;
 			if (IsHealthFull())

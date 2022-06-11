@@ -57,6 +57,8 @@ namespace Deviloper.Character
 			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
 			if (stronghold)
 			{
+				if (!stronghold.isDefenceEnabled)
+					return;
 				//You can use Observer Pattern here.
 				stronghold.TakeDamage(m_Damage);
 				CharacterService.Instance.EnemyDeath(this);
