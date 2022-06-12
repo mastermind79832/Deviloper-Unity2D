@@ -52,7 +52,7 @@ namespace Deviloper.Character
 			m_Health -= damage;
 			if(m_Health <= 0)
 			{
-				ActivateDeath();
+				gameObject.SetActive(false);
 			}
 		}
 
@@ -65,8 +65,13 @@ namespace Deviloper.Character
 					return;
 				//You can use Observer Pattern here.
 				stronghold.TakeDamage(m_Damage);
-				ActivateDeath();
+				gameObject.SetActive(false);
 			}
+		}
+		private void OnDisable()
+		{
+			ActivateDeath();
+			transform.position = transform.parent.position;
 		}
 
 		private void ActivateDeath()

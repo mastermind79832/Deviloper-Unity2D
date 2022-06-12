@@ -42,6 +42,7 @@ namespace Deviloper.Character
             else
 			{
                 newEnemy = enemyTypePair.pool.GetItem();
+                newEnemy.transform.position = location;
                 newEnemy.gameObject.SetActive(true);
 			}
             return newEnemy;
@@ -73,7 +74,6 @@ namespace Deviloper.Character
 		{
             EnemyTypePair enemyTypePair = GetEnemytypePair(enemy.Type);
             enemyTypePair.pool.SetItem(enemy);
-            enemy.gameObject.SetActive(false);
         }
 	}
 }
