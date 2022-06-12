@@ -57,6 +57,7 @@ namespace Deviloper.Service.Character
 		public void EnemyDeath(EnemyController enemy)
 		{
 			enemies.Remove(enemy);
+			factory.BackToPool(enemy);
 		}
 		
 	}

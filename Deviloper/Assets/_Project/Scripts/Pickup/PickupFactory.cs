@@ -17,7 +17,7 @@ namespace Deviloper.Pickup
 			PickupTypePair() =>
 				pool = new ObjectPool<Pickupable>();
 		}
-
+		public Transform pickupCollection;
 		public List<PickupTypePair> pickupPairs;
 
 		public void CreatePickup(int coinAmount, Vector2 position)
@@ -65,7 +65,9 @@ namespace Deviloper.Pickup
 
 		private Pickupable<T> CreatePickup<T>(Pickupable pickupPrefab)
 		{
-			return Instantiate(pickupPrefab).GetComponent<Pickupable<T>>(); 
+			Pickupable<T> newPickup = Instantiate(pickupPrefab).GetComponent<Pickupable<T>>();
+			newPickup.transform.SetParent(pickupCollection);
+			return newPickup; 
 		}
 
 		public void ReturnPickup(Pickupable pickup)

@@ -10,6 +10,7 @@ namespace Deviloper.Character
     public class EnemyController : MonoBehaviour,IDamageable
     {
 		public EnemyTypeSO enemyBaseStats;
+		public EnemyType Type { get; set; }
 
 		private float m_Health;
 		private float m_Speed;
@@ -49,6 +50,10 @@ namespace Deviloper.Character
 		public void TakeDamage(float damage)
 		{
 			m_Health -= damage;
+			if(m_Health <= 0)
+			{
+				ActivateDeath();
+			}
 		}
 
 		private void OnTriggerEnter2D(Collider2D collision)
@@ -60,10 +65,14 @@ namespace Deviloper.Character
 					return;
 				//You can use Observer Pattern here.
 				stronghold.TakeDamage(m_Damage);
-				CharacterService.Instance.EnemyDeath(this);
-				DropPickup();
-				Destroy(gameObject);
+				ActivateDeath();
 			}
+		}
+
+		private void ActivateDeath()
+		{
+			DropPickup();
+			CharacterService.Instance.EnemyDeath(this);
 		}
 
 		private void DropPickup()

@@ -55,7 +55,7 @@ namespace Deviloper.Service.Stage
 		public void StartNextStage()
 		{
 			m_CurrentStageLevel++;
-			if (m_CurrentStageLevel == stages[m_CurrentStageIndex].level)
+			if (m_CurrentStageLevel == stages[m_CurrentStageIndex+1].level)
 			{
 				m_CurrentStageIndex++;
 			}
