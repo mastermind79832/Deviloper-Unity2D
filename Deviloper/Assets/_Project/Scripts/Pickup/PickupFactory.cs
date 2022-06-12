@@ -20,6 +20,16 @@ namespace Deviloper.Pickup
 
 		public List<PickupTypePair> pickupPairs;
 
+		public void CreatePickup(int coinAmount, Vector2 position)
+		{
+			CreatePickup<int>(PickupType.Coin, coinAmount, position);
+		}
+
+		public void CreatePickup(float healthAmount, Vector2 position)
+		{
+			CreatePickup<float>(PickupType.Health, healthAmount, position);
+		}
+
 		public void CreatePickup<T>(PickupType type, T item, Vector2 position)
 		{
 			PickupTypePair typePair = GetTypePair(type);

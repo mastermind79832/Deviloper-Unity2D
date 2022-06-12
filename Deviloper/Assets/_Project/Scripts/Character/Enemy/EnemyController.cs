@@ -7,7 +7,6 @@ using Deviloper.Stronghold;
 namespace Deviloper.Character
 {
 	[RequireComponent(typeof(Rigidbody2D))]
-	[RequireComponent(typeof(BoxCollider2D))]    
     public class EnemyController : MonoBehaviour,IDamageable
     {
 		public EnemyTypeSO enemyBaseStats;
@@ -84,12 +83,12 @@ namespace Deviloper.Character
 			if(pickupType == PickupType.Coin)
 			{
 				int coinAmount = (int)m_Health;
-				pickupFactory.CreatePickup<int>(pickupType, coinAmount, transform.position);
+				pickupFactory.CreatePickup(coinAmount, transform.position);
 			}
 			else if(pickupType == PickupType.Health)
 			{
 				float healthAmount = m_Damage / 2;
-				pickupFactory.CreatePickup<float>(pickupType, healthAmount, transform.position);
+				pickupFactory.CreatePickup(healthAmount,transform.position);
 			}
 		}
 	}

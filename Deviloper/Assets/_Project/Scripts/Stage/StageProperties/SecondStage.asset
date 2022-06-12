@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a17a17752ada1a4fbbd4638fa4f7fcd, type: 3}
-  m_Name: Normal
+  m_Script: {fileID: 11500000, guid: 2c95eb6761061ae438102cecbbcc2e62, type: 3}
+  m_Name: SecondStage
   m_EditorClassIdentifier: 
-  baseHealth: 20
-  baseSpeed: 1
-  baseDamage: 5
-  dropProperties:
-  - pickupType: 0
-    dropRate: 60
-  - pickupType: 1
-    dropRate: 40
+  level: 2
+  enemyCount: 20
+  enemyList: 0100000002000000
+  enemySpawnInterval: 1
+  nextStageTimeOut: 5
