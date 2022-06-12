@@ -7,18 +7,18 @@ namespace Deviloper.Character
 {
     public class Vallet : MonoBehaviour
     {
-        private int vallet;
+        private int m_Vallet;
 
 		private void Start()
 		{
-			vallet = 0;
+			m_Vallet = 0;
 		}
 
-		public int GetCoin() => vallet;
+		public int GetCoin() => m_Vallet;
 
 		public void UseCoin(int amount)
 		{
-			vallet -= amount;
+			m_Vallet -= amount;
 		}
 
 		private void OnTriggerEnter2D(Collider2D collision)
@@ -26,7 +26,7 @@ namespace Deviloper.Character
 			CoinPickup coinPickup = collision.GetComponent<CoinPickup>();
 			if (coinPickup)
 			{
-				vallet += coinPickup.Pickup();
+				m_Vallet += coinPickup.Pickup();
 				coinPickup.gameObject.SetActive(false);
 				return;
 			}

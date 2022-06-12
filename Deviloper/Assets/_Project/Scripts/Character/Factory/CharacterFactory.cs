@@ -24,8 +24,9 @@ namespace Deviloper.Character
             return Instantiate(playerPrefab,location.position,location.rotation);
 		}
 
-        public EnemyController CreateEnemy(Vector2 location,EnemyType enemyType)// add type here
+        public EnemyController CreateEnemy(Vector2 location,EnemyType enemyType)
 		{
+            // add enemy pooling here
             EnemyController enemyPreafb = GetEnemyTypePrefab(enemyType);
             return Instantiate(enemyPreafb, location, Quaternion.identity);
         }

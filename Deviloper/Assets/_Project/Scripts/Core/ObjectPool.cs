@@ -2,12 +2,13 @@
 
 namespace Deviloper.Pickup
 {
+	[System.Serializable]
 	public class ObjectPool<T>
 	{
-		public Queue<T> Items;
-		public ObjectPool() => Items = new Queue<T>();
-		public bool IsEmpty() => Items.Count == 0;
-		public T GetItem() => Items.Dequeue();
-		public void SetItem(T newItem) => Items.Enqueue(newItem);
+		public Queue<T> m_Items;
+		public ObjectPool() => m_Items = new Queue<T>();
+		public bool IsEmpty() => m_Items.Count == 0;
+		public T GetItem() => m_Items.Dequeue();
+		public void SetItem(T newItem) => m_Items.Enqueue(newItem);
 	}
 }

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c95eb6761061ae438102cecbbcc2e62, type: 3}
-  m_Name: FirstStage
+  m_Name: SecondStage
   m_EditorClassIdentifier: 
-  level: 1
-  enemyCount: 10
-  enemyList: 000000000100000002000000
-  enemySpawnInterval: 2
+  level: 2
+  enemyCount: 20
+  enemyList: 0100000002000000
+  enemySpawnInterval: 1
   nextStageTimeOut: 5

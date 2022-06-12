@@ -1,5 +1,3 @@
-using System;
-
 using System.Collections;
 using UnityEngine;
 
@@ -7,7 +5,8 @@ namespace Deviloper.Pickup
 {
 	public class Pickupable : MonoBehaviour
     {
-        public PickupType PickupType;
+		[HideInInspector]
+        public PickupType pickupType;
 		public float aliveTime;
 
 		private Coroutine disableCoutdown; 

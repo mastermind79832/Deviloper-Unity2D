@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Deviloper.Service.Character;
 using Deviloper.Core;
 using Deviloper.Pickup;
+using Deviloper.Stronghold;
 
 namespace Deviloper.Character
 {
 	[RequireComponent(typeof(Rigidbody2D))]
-	[RequireComponent(typeof(BoxCollider2D))]    
     public class EnemyController : MonoBehaviour,IDamageable
     {
 		public EnemyTypeSO enemyBaseStats;
@@ -55,9 +53,13 @@ namespace Deviloper.Character
 
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
-			if(collision.CompareTag("Finish"))
+			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
+			if (stronghold)
 			{
+				if (!stronghold.isDefenceEnabled)
+					return;
 				//You can use Observer Pattern here.
+				stronghold.TakeDamage(m_Damage);
 				CharacterService.Instance.EnemyDeath(this);
 				DropPickup();
 				Destroy(gameObject);
@@ -81,12 +83,12 @@ namespace Deviloper.Character
 			if(pickupType == PickupType.Coin)
 			{
 				int coinAmount = (int)m_Health;
-				pickupFactory.CreatePickup<int>(pickupType, coinAmount, transform.position);
+				pickupFactory.CreatePickup(coinAmount, transform.position);
 			}
 			else if(pickupType == PickupType.Health)
 			{
 				float healthAmount = m_Damage / 2;
-				pickupFactory.CreatePickup<float>(pickupType, healthAmount, transform.position);
+				pickupFactory.CreatePickup(healthAmount,transform.position);
 			}
 		}
 	}

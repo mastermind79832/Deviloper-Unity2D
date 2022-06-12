@@ -4,7 +4,6 @@ using Deviloper.Core;
 
 namespace Deviloper.Pickup
 {
-
 	public class PickupFactory : MonoSingletonGeneric<PickupFactory>
 	{
 
@@ -20,6 +19,16 @@ namespace Deviloper.Pickup
 		}
 
 		public List<PickupTypePair> pickupPairs;
+
+		public void CreatePickup(int coinAmount, Vector2 position)
+		{
+			CreatePickup<int>(PickupType.Coin, coinAmount, position);
+		}
+
+		public void CreatePickup(float healthAmount, Vector2 position)
+		{
+			CreatePickup<float>(PickupType.Health, healthAmount, position);
+		}
 
 		public void CreatePickup<T>(PickupType type, T item, Vector2 position)
 		{
@@ -61,7 +70,7 @@ namespace Deviloper.Pickup
 
 		public void ReturnPickup(Pickupable pickup)
 		{
-			PickupTypePair pair = GetTypePair(pickup.PickupType);
+			PickupTypePair pair = GetTypePair(pickup.pickupType);
 			pair.pool.SetItem(pickup);
 		}
 	}

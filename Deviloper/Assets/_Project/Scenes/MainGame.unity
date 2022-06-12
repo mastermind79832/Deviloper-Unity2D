@@ -249,6 +249,7 @@ GameObject:
   - component: {fileID: 649389988}
   - component: {fileID: 649389987}
   - component: {fileID: 649389986}
+  - component: {fileID: 649389989}
   m_Layer: 0
   m_Name: StrongHold
   m_TagString: Finish
@@ -349,6 +350,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &649389989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649389985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7320e2fb30512f34d9854782efe8ce7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1 &726183374
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stages:
   - {fileID: 11400000, guid: 068044a9eb45b094cad2496f64133c47, type: 2}
-  currentStage:
+  m_CurrentStage:
     level: 0
     enemyCount: 0
     enemyTypeList: 
