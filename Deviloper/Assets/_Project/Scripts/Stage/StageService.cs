@@ -13,8 +13,8 @@ namespace Deviloper.Service.Stage
     {
 
 		[Header("Stage Properties")]
-		[Tooltip("The stage properrty will be used unity next stage level is encountered. element 0 is bydefault for level 1")]
-        public List<StageController> stages;
+		[Tooltip("The stage property will be used unity next stage level is encountered. element 0 is bydefault for level 1")]
+        public List<StagePropertiesSO> stages;
 
 		[SerializeField]
         private StageController currentStage;
@@ -49,7 +49,7 @@ namespace Deviloper.Service.Stage
 			currentStage.Update();
 		}
 
-		public void SpawnEnemy(EnemyController enemyPrefab)
+		public void SpawnEnemy(EnemyType enemyPrefab)
 		{
             characterService.SpawnEnemy(enemyPrefab,currentStage.level);
 		}

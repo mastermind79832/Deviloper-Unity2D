@@ -46,7 +46,7 @@ namespace Deviloper.Service.Character
 			return Random.Range(enemySpawnRadius * isNegative, (enemySpawnRadius + 11) * isNegative);
 		}
 
-		public void SpawnEnemy(EnemyController enemyPrefab, int stageLevel)
+		public void SpawnEnemy(EnemyType enemyPrefab, int stageLevel)
 		{
 			EnemyController newEnemy = factory.CreateEnemy(GetEnemySpawn(), enemyPrefab);
 			newEnemy.SetStats(stageLevel);
