@@ -17,6 +17,9 @@ namespace Deviloper.Character
             public EnemyType type;
             public EnemyController controller;
             public ObjectPool<EnemyController> pool;
+
+            EnemyTypePair() =>
+                pool = new ObjectPool<EnemyController>();
         }
         [Header("Enemy")]
         public Transform enemyCollection;
