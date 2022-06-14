@@ -14,7 +14,7 @@ namespace Deviloper.Service.Character
 		public float enemySpawnRadius;
 		
         private PlayerController player;
-        private List<EnemyController> enemies;
+		private List<EnemyController> enemies;
 
 		private void Start()
 		{
@@ -59,6 +59,8 @@ namespace Deviloper.Service.Character
 			enemies.Remove(enemy);
 			factory.BackToPool(enemy);
 		}
+
+		public List<EnemyController> GetEnemyList() => enemies;
 		
 	}
 }

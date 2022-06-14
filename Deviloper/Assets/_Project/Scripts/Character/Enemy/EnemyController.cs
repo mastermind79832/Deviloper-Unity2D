@@ -36,6 +36,8 @@ namespace Deviloper.Character
 			m_Damage = enemyBaseStats.baseDamage + (m_Level * 3f);
 		}
 
+		public float GetSpeed() => m_Speed;	
+
 		private void FixedUpdate()
 		{
 			MoveToPlayer();
