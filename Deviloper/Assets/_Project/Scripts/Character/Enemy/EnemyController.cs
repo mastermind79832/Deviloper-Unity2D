@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using Deviloper.Service.Character;
 using Deviloper.Core;
@@ -20,12 +21,30 @@ namespace Deviloper.Character
 		private Rigidbody2D m_Rb;
 		private Transform player;
 		private PickupFactory pickupFactory;
+		private ParticleSystem Explosion;
+		private Collider2D col;
+		private SpriteRenderer sprite;
+		public bool isDead;
 
+		private void OnEnable()
+		{
+			isDead = false;
+		}
+		
 		private void Start()
+		{
+			Initilize();
+		}
+
+		private void Initilize()
 		{
 			m_Rb = GetComponent<Rigidbody2D>();
 			player = CharacterService.Instance.GetPlayerTransform();
 			pickupFactory = PickupFactory.Instance;
+			Explosion = transform.GetChild(0).GetComponent<ParticleSystem>();
+			Explosion.gameObject.SetActive(false);
+			col = GetComponent<Collider2D>();
+			sprite = GetComponent<SpriteRenderer>();
 		}
 
 		public void SetStats(int stageLevel)
@@ -37,6 +56,7 @@ namespace Deviloper.Character
 		}
 
 		public float GetSpeed() => m_Speed;	
+		public void SlowDown(float value) => m_Speed /= value;
 
 		private void FixedUpdate()
 		{
@@ -45,8 +65,8 @@ namespace Deviloper.Character
 
 		private void MoveToPlayer()
 		{
-			m_Rb.MovePosition(
-				Vector2.MoveTowards(transform.position, player.position, m_Speed * Time.deltaTime));
+			if(!isDead)
+				m_Rb.MovePosition(Vector2.MoveTowards(transform.position, player.position, m_Speed * Time.deltaTime));
 		}
 
 		public void TakeDamage(float damage)
@@ -54,7 +74,7 @@ namespace Deviloper.Character
 			m_Health -= damage;
 			if(m_Health <= 0)
 			{
-				gameObject.SetActive(false);
+				ActivateDeath();
 			}
 		}
 
@@ -67,19 +87,34 @@ namespace Deviloper.Character
 					return;
 				//You can use Observer Pattern here.
 				stronghold.TakeDamage(m_Damage);
-				gameObject.SetActive(false);
+				ActivateDeath();
 			}
 		}
 		private void OnDisable()
 		{
-			ActivateDeath();
-			transform.position = transform.parent.position;
+			col.enabled = true;
+			sprite.enabled = true;
+			CharacterService.Instance.EnemyDeath(this);
+		}
+		
+		public void ActivateDeath()
+		{
+			isDead = true;
+			col.enabled = false;
+			sprite.enabled = false;
+			StartCoroutine(Explode());
 		}
 
-		private void ActivateDeath()
+		private IEnumerator Explode()
 		{
 			DropPickup();
-			CharacterService.Instance.EnemyDeath(this);
+			m_Rb.AddTorque(200f);
+			Explosion.gameObject.SetActive(true);
+			Explosion.Play();
+			yield return new WaitForSeconds(Explosion.main.duration);
+			Explosion.gameObject.SetActive(false);
+			transform.position = transform.parent.position;
+			gameObject.SetActive(false);
 		}
 
 		private void DropPickup()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Deviloper.Service.Character;
 using Deviloper.Character;
+using Deviloper.Core;
 
 namespace Deviloper.Ability.Aimbot
 {
@@ -12,6 +13,7 @@ namespace Deviloper.Ability.Aimbot
         public ProjectileController projectilePrefab;
         public float projectileDamage;
 		public float projectileSpeed;
+		public float range;
 
 		public Transform projectileCollection;
 
@@ -41,21 +43,22 @@ namespace Deviloper.Ability.Aimbot
 			enemies = CharacterService.Instance.GetEnemyList();
 			if (enemies.Count <= 0)
 				return;
-			CreateProjectile();
+			EnemyController Enemy = GetNearestEnemy();
+			if (IsEnemyInRange(Enemy))
+				CreateProjectile(Enemy);
 		}
 
-		private void CreateProjectile()
+		private bool IsEnemyInRange(EnemyController Enemy)
+		{
+			return Vector2.Distance(Enemy.transform.position, transform.position) <= range && !Enemy.isDead;
+		}
+
+		private void CreateProjectile(EnemyController Enemy)
 		{
 			ProjectileController projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
-			Vector2 predictDirection = GetDirectionPrediction();
+			Vector2 predictDirection = GetRequiredDirection(Enemy);
 			projectile.SetProperties(projectileSpeed, projectileDamage, predictDirection);
 			projectile.transform.SetParent(projectileCollection);
-		}
-
-		private Vector2 GetDirectionPrediction()
-		{
-			EnemyController Enemy = GetNearestEnemy();
-			return GetRequiredDirection(Enemy);
 		}
 
 		/* dont change name.. naming according to equation
@@ -120,6 +123,9 @@ namespace Deviloper.Ability.Aimbot
 
 			for (int i = 1; i < enemies.Count; i++)
 			{
+				if (enemies[i].isDead)
+					continue;
+
 				float dist = Vector2.Distance(transform.position, enemies[i].transform.position);	
 				if (dist < nearestDist)
 				{

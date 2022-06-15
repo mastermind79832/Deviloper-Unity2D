@@ -443,7 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7320e2fb30512f34d9854782efe8ce7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1000
+  maxHealth: 100
 --- !u!1 &726183374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,10 +1099,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4728987c418b2c740af4560312b4d419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireInterval: 0.5
+  fireInterval: 1
   projectilePrefab: {fileID: 5202521801247794057, guid: 248070f32b49d0149a615d901c152e88, type: 3}
   projectileDamage: 20
   projectileSpeed: 20
+  range: 10
   projectileCollection: {fileID: 2026705604}
 --- !u!1 &2004300832
 GameObject:

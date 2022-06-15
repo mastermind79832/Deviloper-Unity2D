@@ -32,7 +32,7 @@ namespace Deviloper.Stronghold
 
 		public void Heal(float amount)
 		{
-			if (!m_Collider.enabled)
+			if (!isDefenceEnabled)
 				isDefenceEnabled = true;
 
 			m_Health += amount;
