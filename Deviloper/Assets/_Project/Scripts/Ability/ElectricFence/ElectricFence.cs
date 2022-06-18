@@ -5,7 +5,7 @@ using Deviloper.Core;
 
 namespace Deviloper.Ability.ElectricFence
 {
-	public class ElectricFence : MonoBehaviour
+	public class ElectricFence : AbilityController
 	{
 		public float damage;
 		public float slowDownMultiplier;

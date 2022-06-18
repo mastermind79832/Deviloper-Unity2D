@@ -60,7 +60,8 @@ namespace Deviloper.Character
 
 		private void FixedUpdate()
 		{
-			MoveToPlayer();
+			if(UiController.Instance.isGamePlaying)
+				MoveToPlayer();
 		}
 
 		private void MoveToPlayer()

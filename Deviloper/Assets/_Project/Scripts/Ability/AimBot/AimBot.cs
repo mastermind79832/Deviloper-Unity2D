@@ -7,7 +7,7 @@ using Deviloper.Core;
 
 namespace Deviloper.Ability.Aimbot
 {
-    public class AimBot : MonoBehaviour
+    public class AimBot : AbilityController 
     {
         public float fireInterval;
         public ProjectileController projectilePrefab;

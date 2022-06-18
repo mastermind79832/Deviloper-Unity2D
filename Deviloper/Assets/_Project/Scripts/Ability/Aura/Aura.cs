@@ -5,7 +5,7 @@ using Deviloper.Core;
 
 namespace Deviloper.Ability.Aura
 {
-    public class Aura : MonoBehaviour
+    public class Aura : AbilityController
     {
         public float damageRate;
 

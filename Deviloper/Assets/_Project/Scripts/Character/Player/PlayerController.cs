@@ -28,7 +28,8 @@ namespace Deviloper.Character
 
 		private void Update()
 		{
-			GetInput();
+			if(UiController.Instance.isGamePlaying)
+				GetInput();
 		}
 
 		private void FixedUpdate()
@@ -51,6 +52,15 @@ namespace Deviloper.Character
 		private void GetInput()
 		{
 			m_MoveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+		}
+
+		private void OnCollisionEnter2D(Collision2D collision)
+		{
+
+			if (collision.transform.TryGetComponent(out EnemyController enemy))
+			{
+				UiController.Instance.GameOver();
+			}
 		}
 	}
 }

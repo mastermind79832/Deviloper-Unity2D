@@ -38,6 +38,9 @@ namespace Deviloper.Service.Stage
 
 		private void Update()
 		{
+			if(!UiController.Instance.isGamePlaying)
+				return;
+
 			if (characterService.IsEnemyListEmpty() && m_CurrentStage.IsEnemyOver())
 			{
 				m_CurrentStage.WaitForNextStage();
