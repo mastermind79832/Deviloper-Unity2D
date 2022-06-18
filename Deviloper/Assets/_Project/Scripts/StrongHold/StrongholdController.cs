@@ -27,7 +27,10 @@ namespace Deviloper.Stronghold
 		private void CheckHealth()
 		{
 			if(m_Health <= 0)
+			{
+				m_Health = 0;
 				isDefenceEnabled = false;
+			}
 		}
 
 		public void Heal(float amount)
