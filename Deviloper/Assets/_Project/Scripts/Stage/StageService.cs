@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Deviloper.Core;
-using Deviloper.stage;
+using Deviloper.Stage;
 using Deviloper.Character;
 using Deviloper.Service.Character;
+using Deviloper.UI;
 
 namespace Deviloper.Service.Stage
 {
@@ -14,8 +15,7 @@ namespace Deviloper.Service.Stage
 		[Tooltip("The stage property will be used unity next stage level is encountered. element 0 is bydefault for level 1")]
         public List<StagePropertiesSO> stages;
 
-		[SerializeField]
-        private StageController m_CurrentStage;
+		[SerializeField] private StageController m_CurrentStage;
 		private int m_CurrentStageLevel;
 		private int m_CurrentStageIndex;
 

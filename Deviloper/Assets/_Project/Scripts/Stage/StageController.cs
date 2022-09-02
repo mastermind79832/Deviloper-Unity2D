@@ -4,7 +4,7 @@ using UnityEngine;
 using Deviloper.Character;
 using Deviloper.Service.Stage;
 
-namespace Deviloper.stage
+namespace Deviloper.Stage
 {
 	[System.Serializable]
     public class StageController

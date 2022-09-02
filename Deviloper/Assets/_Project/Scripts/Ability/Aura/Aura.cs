@@ -7,13 +7,13 @@ namespace Deviloper.Ability.Aura
 {
     public class Aura : AbilityController
     {
-        public float damageRate;
+        [SerializeField] private float m_Damage;
 
 		private void OnTriggerStay2D(Collider2D other)
 		{
 			if(other.TryGetComponent(out IDamageable enemy))
 			{
-				enemy.TakeDamage(damageRate/10);
+				enemy.TakeDamage(m_Damage/60);
 			}
 		}
 	}

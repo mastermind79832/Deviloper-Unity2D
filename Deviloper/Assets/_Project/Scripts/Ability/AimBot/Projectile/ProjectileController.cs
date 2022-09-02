@@ -6,10 +6,10 @@ namespace Deviloper.Ability.Aimbot
 {
     public class ProjectileController : MonoBehaviour
     {
-        public float speed;
-        public Vector2 direction = Vector2.zero;
+		[SerializeField] private float m_Damage;
+        [SerializeField] private float m_Speed;
+        private Vector2 m_Direction = Vector2.zero;
 
-		public float damage;
 
 		private void FixedUpdate()
 		{
@@ -18,23 +18,23 @@ namespace Deviloper.Ability.Aimbot
 
 		private void MoveProjectile()
 		{
-			transform.position += speed * Time.deltaTime * (Vector3)direction;
+			transform.position += m_Speed * Time.deltaTime * (Vector3)m_Direction;
 		}
 
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
 			if(collision.GetComponent<EnemyController>() != null)
 			{
-				collision.GetComponent<IDamageable>().TakeDamage(damage);
+				collision.GetComponent<IDamageable>().TakeDamage(m_Damage);
 				Destroy(gameObject);
 			}
 		}
 
 		public void SetProperties(float _speed, float _damage, Vector2 _direction)
 		{
-			speed = _speed;
-			damage = _damage;
-			direction = _direction;
+			m_Speed = _speed;
+			m_Damage = _damage;
+			m_Direction = _direction;
 		}
 	}
 }

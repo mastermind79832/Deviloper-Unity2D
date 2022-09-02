@@ -2,7 +2,7 @@
 using UnityEngine;
 using Deviloper.Character;
 
-namespace Deviloper.stage
+namespace Deviloper.Stage
 {
 	[CreateAssetMenu(menuName = "Stage/New Property", fileName = "New StageProperty")]
 	public class StagePropertiesSO : ScriptableObject

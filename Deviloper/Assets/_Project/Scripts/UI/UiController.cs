@@ -4,12 +4,12 @@ using UnityEngine;
 using Deviloper.Core;
 using System;
 
-namespace Deviloper
+namespace Deviloper.UI
 {
     public class UiController : MonoSingletonGeneric<UiController>
     {
-        public GameObject startPanel;
-        public GameObject endPanel;
+		[SerializeField] private GameObject m_StartPanel;
+		[SerializeField] private GameObject m_EndPanel;
 
 		public bool isGameOver;
 		public bool isGamePlaying;
@@ -18,8 +18,8 @@ namespace Deviloper
 		{
 			isGameOver = false;
 			isGamePlaying = false;
-			startPanel.SetActive(true);
-			endPanel.SetActive(false);
+			m_StartPanel.SetActive(true);
+			m_EndPanel.SetActive(false);
 		}
 
 		private void Update()
@@ -36,14 +36,14 @@ namespace Deviloper
 		private void StatGame()
 		{
 			isGamePlaying = true;
-			startPanel.SetActive(false);
+			m_StartPanel.SetActive(false);
 		}
 
 		public void GameOver()
 		{
 			isGamePlaying = false;
 			isGameOver = true;
-			endPanel.SetActive(true);
+			m_EndPanel.SetActive(true);
 		}
 
 		private void RestartGame()

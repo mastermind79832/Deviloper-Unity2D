@@ -7,15 +7,15 @@ namespace Deviloper.Ability.ElectricFence
 {
 	public class ElectricFence : AbilityController
 	{
-		public float damage;
-		public float slowDownMultiplier;
+		[SerializeField] private float m_Damage;
+		[SerializeField] private float m_SlowDownMultiplier;
 
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
 			if(collision.TryGetComponent(out EnemyController enemy))
 			{
-				enemy.TakeDamage(damage);
-				enemy.SlowDown(slowDownMultiplier);
+				enemy.TakeDamage(m_Damage);
+				enemy.SlowDown(m_SlowDownMultiplier);
 			}
 		}
 	}

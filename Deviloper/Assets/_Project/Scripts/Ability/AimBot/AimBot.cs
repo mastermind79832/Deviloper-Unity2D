@@ -9,39 +9,39 @@ namespace Deviloper.Ability.Aimbot
 {
     public class AimBot : AbilityController 
     {
-        public float fireInterval;
-        public ProjectileController projectilePrefab;
-        public float projectileDamage;
-		public float projectileSpeed;
-		public float range;
+		[SerializeField] private ProjectileController m_ProjectilePrefab;
+		[SerializeField] private float m_FireInterval;
+		[SerializeField] private float m_ProjectileDamage;
+		[SerializeField] private float m_ProjectileSpeed;
+		[SerializeField] private float m_Range;
 
-		public Transform projectileCollection;
+		[SerializeField] private Transform m_ProjectileCollection;
 
-		private float timer;
-		private List<EnemyController> enemies;
-		private Transform player;
+		private float m_Timer;
+		private List<EnemyController> m_Enemies;
+		private Transform m_Player;
 
 		private void Start()
 		{
-			player = CharacterService.Instance.GetPlayerTransform();
+			m_Player = CharacterService.Instance.GetPlayerTransform();
 		}
 
 		private void Update()
 		{
 			IncreaseTimer();
-			if (timer > fireInterval)
+			if (m_Timer > m_FireInterval)
 				Fire();
 		}
 		private void IncreaseTimer()
 		{
-			timer += Time.deltaTime;
+			m_Timer += Time.deltaTime;
 		}
 
 		private void Fire()
 		{
-			timer = 0;
-			enemies = CharacterService.Instance.GetEnemyList();
-			if (enemies.Count <= 0)
+			m_Timer = 0;
+			m_Enemies = CharacterService.Instance.GetEnemyList();
+			if (m_Enemies.Count <= 0)
 				return;
 			EnemyController Enemy = GetNearestEnemy();
 			if (IsEnemyInRange(Enemy))
@@ -50,15 +50,15 @@ namespace Deviloper.Ability.Aimbot
 
 		private bool IsEnemyInRange(EnemyController Enemy)
 		{
-			return Vector2.Distance(Enemy.transform.position, transform.position) <= range && !Enemy.isDead;
+			return Vector2.Distance(Enemy.transform.position, transform.position) <= m_Range && !Enemy.isDead;
 		}
 
 		private void CreateProjectile(EnemyController Enemy)
 		{
-			ProjectileController projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+			ProjectileController projectile = Instantiate(m_ProjectilePrefab, transform.position, transform.rotation);
 			Vector2 predictDirection = GetRequiredDirection(Enemy);
-			projectile.SetProperties(projectileSpeed, projectileDamage, predictDirection);
-			projectile.transform.SetParent(projectileCollection);
+			projectile.SetProperties(m_ProjectileSpeed, m_ProjectileDamage, predictDirection);
+			projectile.transform.SetParent(m_ProjectileCollection);
 		}
 
 		/* dont change name.. naming according to equation
@@ -80,9 +80,9 @@ namespace Deviloper.Ability.Aimbot
 		{
 			Vector2 Pdir = Vector2.zero;	
 			float Es = E.GetSpeed();
-			float Ps = projectileSpeed;
+			float Ps = m_ProjectileSpeed;
 			float EAd = (E.transform.position - transform.position).magnitude;
-			Vector2 Edir = (player.position - E.transform.position).normalized;
+			Vector2 Edir = (m_Player.position - E.transform.position).normalized;
 			float r = Es / Ps;
 			Vector2 EAdir = (transform.position - E.transform.position).normalized;
 			float z = Vector2.Angle(Edir,EAdir) * Mathf.Deg2Rad;
@@ -119,21 +119,21 @@ namespace Deviloper.Ability.Aimbot
 		private EnemyController GetNearestEnemy()
 		{
 			int nearestIndex = 0;
-			float nearestDist = Vector2.Distance(transform.position, enemies[0].transform.position);
+			float nearestDist = Vector2.Distance(transform.position, m_Enemies[0].transform.position);
 
-			for (int i = 1; i < enemies.Count; i++)
+			for (int i = 1; i < m_Enemies.Count; i++)
 			{
-				if (enemies[i].isDead)
+				if (m_Enemies[i].isDead)
 					continue;
 
-				float dist = Vector2.Distance(transform.position, enemies[i].transform.position);	
+				float dist = Vector2.Distance(transform.position, m_Enemies[i].transform.position);	
 				if (dist < nearestDist)
 				{
 					nearestIndex = i;
 					nearestDist = dist;
 				}
 			}
-			return enemies[nearestIndex];
+			return m_Enemies[nearestIndex];
 		}
 
 	}

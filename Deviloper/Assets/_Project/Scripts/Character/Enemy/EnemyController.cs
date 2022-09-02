@@ -4,13 +4,14 @@ using Deviloper.Service.Character;
 using Deviloper.Core;
 using Deviloper.Pickup;
 using Deviloper.Stronghold;
+using Deviloper.UI;
 
 namespace Deviloper.Character
 {
 	[RequireComponent(typeof(Rigidbody2D))]
     public class EnemyController : MonoBehaviour,IDamageable
     {
-		public EnemyTypeSO enemyBaseStats;
+		[SerializeField] private EnemyTypeSO enemyBaseStats;
 		public EnemyType Type { get; set; }
 
 		private float m_Health;
@@ -21,9 +22,9 @@ namespace Deviloper.Character
 		private Rigidbody2D m_Rb;
 		private Transform player;
 		private PickupFactory pickupFactory;
-		private ParticleSystem Explosion;
-		private Collider2D col;
-		private SpriteRenderer sprite;
+		private ParticleSystem explosion;
+		private Collider2D m_Collider;
+		private SpriteRenderer m_Sprite;
 		public bool isDead;
 
 		private void OnEnable()
@@ -41,10 +42,10 @@ namespace Deviloper.Character
 			m_Rb = GetComponent<Rigidbody2D>();
 			player = CharacterService.Instance.GetPlayerTransform();
 			pickupFactory = PickupFactory.Instance;
-			Explosion = transform.GetChild(0).GetComponent<ParticleSystem>();
-			Explosion.gameObject.SetActive(false);
-			col = GetComponent<Collider2D>();
-			sprite = GetComponent<SpriteRenderer>();
+			explosion = transform.GetChild(0).GetComponent<ParticleSystem>();
+			explosion.gameObject.SetActive(false);
+			m_Collider = GetComponent<Collider2D>();
+			m_Sprite = GetComponent<SpriteRenderer>();
 		}
 
 		public void SetStats(int stageLevel)
@@ -84,7 +85,7 @@ namespace Deviloper.Character
 			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
 			if (stronghold)
 			{
-				if (!stronghold.isDefenceEnabled)
+				if (!stronghold.IsDefenceEnabled)
 					return;
 				//You can use Observer Pattern here.
 				stronghold.TakeDamage(m_Damage);
@@ -93,16 +94,16 @@ namespace Deviloper.Character
 		}
 		private void OnDisable()
 		{
-			col.enabled = true;
-			sprite.enabled = true;
+			m_Collider.enabled = true;
+			m_Sprite.enabled = true;
 			CharacterService.Instance.EnemyDeath(this);
 		}
 		
 		public void ActivateDeath()
 		{
 			isDead = true;
-			col.enabled = false;
-			sprite.enabled = false;
+			m_Collider.enabled = false;
+			m_Sprite.enabled = false;
 			StartCoroutine(Explode());
 		}
 
@@ -110,10 +111,10 @@ namespace Deviloper.Character
 		{
 			DropPickup();
 			m_Rb.AddTorque(200f);
-			Explosion.gameObject.SetActive(true);
-			Explosion.Play();
-			yield return new WaitForSeconds(Explosion.main.duration);
-			Explosion.gameObject.SetActive(false);
+			explosion.gameObject.SetActive(true);
+			explosion.Play();
+			yield return new WaitForSeconds(explosion.main.duration);
+			explosion.gameObject.SetActive(false);
 			transform.position = transform.parent.position;
 			gameObject.SetActive(false);
 		}
