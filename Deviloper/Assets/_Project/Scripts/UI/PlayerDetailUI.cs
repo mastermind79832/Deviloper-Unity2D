@@ -14,8 +14,14 @@ namespace Deviloper.UI
 
         [Header("Collectibles")]
         [SerializeField] private TextMeshProUGUI m_MoneyText;
-        [SerializeField] private TextMeshProUGUI m_HealthText;        
+        [SerializeField] private TextMeshProUGUI m_HealthText;
 
+        [Header("Animator")]
+        [SerializeField] private Animator m_Anim;
+        private readonly int anim_IsActive = Animator.StringToHash("IsActive");
+
+
+        public void SetUIActive(bool isActive) => m_Anim.SetBool(anim_IsActive, isActive);
         public void SetMaxHealthU(float value) => m_MaxHealth = value;
         public void RefereshHealthUI(float currentValue) => m_HealthSlider.value = currentValue / m_MaxHealth;
         public void RefreshHealthPickUpAmount(float health) => m_HealthText.text = health.ToString();

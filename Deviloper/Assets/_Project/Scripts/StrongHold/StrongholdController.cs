@@ -13,7 +13,7 @@ namespace Deviloper.Stronghold
 		private Action<float> m_OnHeathUpdate;
 
 		public bool IsDefenceEnabled { get; private set; }
-
+			
 		private void Start()
 		{
 			m_Collider = GetComponent<Collider2D>();

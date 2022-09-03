@@ -871,7 +871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UpgradeAmount: 0
-  m_Name: 
+  m_AbilityName: 
   m_Detail_1: 
   m_Detail_2: 
   m_Detail_3: 
@@ -1940,7 +1940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189bad948fc3d25459366ac147b2d788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StartPanel: {fileID: 1102705781}
+  m_TitleAnimator: {fileID: 1102705785}
   m_EndPanel: {fileID: 853553886}
   PlayerDetailUI: {fileID: 1853550728}
   UpgradeUI: {fileID: 0}
@@ -3048,6 +3048,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 996643365}
   m_CullTransparentMesh: 1
+--- !u!114 &1057872845 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6189625753647685865, guid: 727014d380507dc49843798425e1b899, type: 3}
+  m_PrefabInstance: {fileID: 6266421856612426618}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eab19dd9980b6140b4da069e02deb68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1102705781
 GameObject:
   m_ObjectHideFlags: 0
@@ -3059,6 +3070,7 @@ GameObject:
   - component: {fileID: 1102705782}
   - component: {fileID: 1102705784}
   - component: {fileID: 1102705783}
+  - component: {fileID: 1102705785}
   m_Layer: 5
   m_Name: Start
   m_TagString: Untagged
@@ -3127,6 +3139,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102705781}
   m_CullTransparentMesh: 1
+--- !u!95 &1102705785
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102705781}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ac5e3acb0ca451f43a8dd5d09585045a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1118911585
 GameObject:
   m_ObjectHideFlags: 0
@@ -3138,6 +3170,7 @@ GameObject:
   - component: {fileID: 1118911588}
   - component: {fileID: 1118911587}
   - component: {fileID: 1118911586}
+  - component: {fileID: 1118911589}
   m_Layer: 0
   m_Name: Computer
   m_TagString: Untagged
@@ -3241,6 +3274,19 @@ Transform:
   m_Father: {fileID: 2092483568}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1118911589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118911585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a244db3074bf7e7478b4b6d92e0c2758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim_UpgradePanelAnimator: {fileID: 1283079877}
 --- !u!1 &1156006155
 GameObject:
   m_ObjectHideFlags: 0
@@ -3733,6 +3779,7 @@ GameObject:
   - component: {fileID: 1283079874}
   - component: {fileID: 1283079876}
   - component: {fileID: 1283079875}
+  - component: {fileID: 1283079877}
   m_Layer: 5
   m_Name: UpgradePanel
   m_TagString: Untagged
@@ -3758,7 +3805,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 642, y: -10.039978}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1283079875
@@ -3799,6 +3846,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1283079873}
   m_CullTransparentMesh: 1
+--- !u!95 &1283079877
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283079873}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e369d374631b7bb419fbebb2e353d426, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1299239313
 GameObject:
   m_ObjectHideFlags: 0
@@ -4291,11 +4358,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UpgradeAmount: 0
-  m_Name: 
+  m_AbilityName: 
   m_Detail_1: 
   m_Detail_2: 
   m_Detail_3: 
-  m_UpgradeUI: {fileID: 0}
+  m_UpgradeUI: {fileID: 1057872845}
   m_ProjectilePrefab: {fileID: 5202521801247794057, guid: 248070f32b49d0149a615d901c152e88, type: 3}
   m_ProjectileSpeed: 20
   m_ProjectileDamage: 20
@@ -4555,6 +4622,7 @@ GameObject:
   - component: {fileID: 1853550727}
   - component: {fileID: 1853550726}
   - component: {fileID: 1853550728}
+  - component: {fileID: 1853550729}
   m_Layer: 5
   m_Name: PlayerDetailPanel
   m_TagString: Untagged
@@ -4641,6 +4709,27 @@ MonoBehaviour:
   m_HealthSlider: {fileID: 151718428}
   m_MoneyText: {fileID: 667234713}
   m_HealthText: {fileID: 1524155038}
+  m_Anim: {fileID: 1853550729}
+--- !u!95 &1853550729
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853550724}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9e12487ded5a5c940b98ca2e559c1900, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1949507838
 GameObject:
   m_ObjectHideFlags: 0
@@ -4891,7 +4980,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UpgradeAmount: 0
-  m_Name: 
+  m_AbilityName: 
   m_Detail_1: 
   m_Detail_2: 
   m_Detail_3: 

@@ -8,8 +8,9 @@ namespace Deviloper.UI
 {
     public class UiController : MonoSingletonGeneric<UiController>
     {
-		[SerializeField] private GameObject m_StartPanel;
+		[SerializeField] private Animator m_TitleAnimator;
 		[SerializeField] private GameObject m_EndPanel;
+		private readonly int anim_IsTitleActive = Animator.StringToHash("IsActive");
 		public PlayerDetailUI PlayerDetailUI;
 		public UpgradeUI UpgradeUI;
 
@@ -20,8 +21,14 @@ namespace Deviloper.UI
 		{
 			isGameOver = false;
 			isGamePlaying = false;
-			m_StartPanel.SetActive(true);
+			TitlePanelActive(true);
 			m_EndPanel.SetActive(false);
+			PlayerDetailUI.SetUIActive(false);
+		}
+
+		private void TitlePanelActive(bool isActive)
+		{
+			m_TitleAnimator.SetBool(anim_IsTitleActive, isActive);
 		}
 
 		private void Update()
@@ -38,7 +45,8 @@ namespace Deviloper.UI
 		private void StatGame()
 		{
 			isGamePlaying = true;
-			m_StartPanel.SetActive(false);
+			TitlePanelActive(false);
+			PlayerDetailUI.SetUIActive(true);
 		}
 
 		public void GameOver()
@@ -46,6 +54,7 @@ namespace Deviloper.UI
 			isGamePlaying = false;
 			isGameOver = true;
 			m_EndPanel.SetActive(true);
+			PlayerDetailUI.SetUIActive(false);
 		}
 
 		private void RestartGame()
