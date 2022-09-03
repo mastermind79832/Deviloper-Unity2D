@@ -135,7 +135,7 @@ namespace Deviloper.Character
 		{
 			if(pickupType == PickupType.Coin)
 			{
-				int coinAmount = (int)m_Health;
+				int coinAmount = (int)enemyBaseStats.baseHealth;
 				pickupFactory.CreatePickup(coinAmount, transform.position);
 			}
 			else if(pickupType == PickupType.Health)

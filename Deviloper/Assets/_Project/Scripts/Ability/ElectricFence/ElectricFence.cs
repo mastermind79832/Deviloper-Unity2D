@@ -10,6 +10,11 @@ namespace Deviloper.Ability.ElectricFence
 		[SerializeField] private float m_Damage;
 		[SerializeField] private float m_SlowDownMultiplier;
 
+		protected override void Start()
+		{
+			base.Start();
+		}
+		
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
 			if(collision.TryGetComponent(out EnemyController enemy))

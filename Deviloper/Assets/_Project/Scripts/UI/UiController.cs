@@ -10,6 +10,8 @@ namespace Deviloper.UI
     {
 		[SerializeField] private GameObject m_StartPanel;
 		[SerializeField] private GameObject m_EndPanel;
+		public PlayerDetailUI PlayerDetailUI;
+		public UpgradeUI UpgradeUI;
 
 		public bool isGameOver;
 		public bool isGamePlaying;

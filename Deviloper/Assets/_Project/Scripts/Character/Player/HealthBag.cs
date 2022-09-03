@@ -10,27 +10,29 @@ namespace Deviloper.Character
     public class HealthBag : MonoBehaviour
     {
 		private float m_HealthBag;
-		public float healAmount; // health/Sec
-		public float healingInterval;
+		[SerializeField] private float m_HealAmount; // health/Sec
+		[SerializeField] private float m_HealingInterval;
 
 		private Coroutine m_HealingRoutine;
+		private Action<float> m_OnHealthUpdate;
 
 		private void Start()
 		{
 			m_HealthBag = 0;
+			m_OnHealthUpdate = UI.UiController.Instance.PlayerDetailUI.RefreshHealthPickUpAmount;
+			m_OnHealthUpdate(m_HealthBag);
 		}
 
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
-			HealthPickup healthPickup = collision.GetComponent<HealthPickup>();
-			if (healthPickup)
+			if (collision.TryGetComponent(out HealthPickup healthPickup))
 			{
 				m_HealthBag += healthPickup.Pickup();
+				m_OnHealthUpdate(m_HealthBag);
 				healthPickup.gameObject.SetActive(false);
 			}
 
-			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
-			if (stronghold)
+			if (collision.TryGetComponent(out StrongholdController stronghold))
 			{
 				if (m_HealthBag > 0)
 				{
@@ -51,7 +53,7 @@ namespace Deviloper.Character
 		{
 			while(m_HealthBag > 0 & !stronghold.IsHealthFull())
 			{
-				yield return new WaitForSeconds(healingInterval);
+				yield return new WaitForSeconds(m_HealingInterval);
 				stronghold.Heal(GetEffectiveHealing());
 			}
 		}
@@ -59,16 +61,18 @@ namespace Deviloper.Character
 		private float GetEffectiveHealing()
 		{
 			float effectiveHealing = 0;
-			if(m_HealthBag < healAmount)
+			if(m_HealthBag < m_HealAmount)
 			{
 				effectiveHealing = m_HealthBag;
 				m_HealthBag = 0;
 			}
 			else
 			{
-				effectiveHealing = healAmount;
-				m_HealthBag -= healAmount;
+				effectiveHealing = m_HealAmount;
+				m_HealthBag -= m_HealAmount;
 			}
+
+			m_OnHealthUpdate(m_HealthBag);
 
 			return effectiveHealing;
 		}

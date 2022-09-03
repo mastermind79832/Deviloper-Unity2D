@@ -10,9 +10,9 @@ namespace Deviloper.Ability.Aimbot
     public class AimBot : AbilityController 
     {
 		[SerializeField] private ProjectileController m_ProjectilePrefab;
-		[SerializeField] private float m_FireInterval;
-		[SerializeField] private float m_ProjectileDamage;
 		[SerializeField] private float m_ProjectileSpeed;
+		[SerializeField] private float m_ProjectileDamage;
+		[SerializeField] private float m_FireInterval;
 		[SerializeField] private float m_Range;
 
 		[SerializeField] private Transform m_ProjectileCollection;
@@ -21,8 +21,9 @@ namespace Deviloper.Ability.Aimbot
 		private List<EnemyController> m_Enemies;
 		private Transform m_Player;
 
-		private void Start()
+		protected override void Start()
 		{
+			base.Start();
 			m_Player = CharacterService.Instance.GetPlayerTransform();
 		}
 

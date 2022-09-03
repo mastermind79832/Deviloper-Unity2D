@@ -9,6 +9,10 @@ namespace Deviloper.Ability.Aura
     {
         [SerializeField] private float m_Damage;
 
+		protected override void Start()
+		{
+			base.Start();
+		}
 		private void OnTriggerStay2D(Collider2D other)
 		{
 			if(other.TryGetComponent(out IDamageable enemy))
