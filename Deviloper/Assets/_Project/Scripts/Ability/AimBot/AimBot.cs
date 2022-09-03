@@ -23,6 +23,10 @@ namespace Deviloper.Ability.Aimbot
 
 		protected override void Start()
 		{
+			m_AbilityName = "AimBot";
+			m_Detail_1 = "Damage";
+			m_Detail_2 = "Fire Inteval";
+			m_Detail_3 = "Range";
 			base.Start();
 			m_Player = CharacterService.Instance.GetPlayerTransform();
 		}
@@ -45,6 +49,9 @@ namespace Deviloper.Ability.Aimbot
 			if (m_Enemies.Count <= 0)
 				return;
 			EnemyController Enemy = GetNearestEnemy();
+			if (Enemy == default)
+				return;
+
 			if (IsEnemyInRange(Enemy))
 				CreateProjectile(Enemy);
 		}
@@ -120,9 +127,16 @@ namespace Deviloper.Ability.Aimbot
 		private EnemyController GetNearestEnemy()
 		{
 			int nearestIndex = 0;
-			float nearestDist = Vector2.Distance(transform.position, m_Enemies[0].transform.position);
+			while(m_Enemies[nearestIndex].isDead)
+			{
+				nearestIndex++;
+				if (nearestIndex >= m_Enemies.Count)
+					return default;
+			}
 
-			for (int i = 1; i < m_Enemies.Count; i++)
+			float nearestDist = Vector2.Distance(transform.position, m_Enemies[nearestIndex].transform.position);
+
+			for (int i = nearestIndex; i < m_Enemies.Count; i++)
 			{
 				if (m_Enemies[i].isDead)
 					continue;
@@ -137,5 +151,17 @@ namespace Deviloper.Ability.Aimbot
 			return m_Enemies[nearestIndex];
 		}
 
+		protected override void UpdateUI()
+		{
+			m_UpgradeUI.RefreshUI(m_Level, m_ProjectileDamage, m_FireInterval, m_Range, m_UpgradeAmount);
+		}
+
+		protected override void Upgrade()
+		{
+			m_ProjectileDamage += 0.2f;
+			m_FireInterval -= 0.1f;
+			m_Range += 0.3f;
+			base.Upgrade();
+		}
 	}
 }

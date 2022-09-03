@@ -11,6 +11,10 @@ namespace Deviloper.Ability.Aura
 
 		protected override void Start()
 		{
+			m_AbilityName = "Aura";
+			m_Detail_1 = "Damage";
+			m_Detail_2 = "";
+			m_Detail_3 = "";
 			base.Start();
 		}
 		private void OnTriggerStay2D(Collider2D other)
@@ -19,6 +23,16 @@ namespace Deviloper.Ability.Aura
 			{
 				enemy.TakeDamage(m_Damage/60);
 			}
+		}
+		protected override void UpdateUI()
+		{
+			m_UpgradeUI.RefreshUI(m_Level, m_Damage, 0, 0, m_UpgradeAmount);
+		}
+
+		protected override void Upgrade()
+		{
+			m_Damage += 0.5f;
+			base.Upgrade();
 		}
 	}
 }

@@ -20,8 +20,13 @@ namespace Deviloper.UI
         [SerializeField] private Animator m_Anim;
         private readonly int anim_IsActive = Animator.StringToHash("IsActive");
 
+		private void Start()
+		{
+            Character.Vallet.OnMoneyUpdate += RefreshMoneyPickUpAmount;
+            Character.HealthBag.OnHealthUpdate += RefreshHealthPickUpAmount;
+		}
 
-        public void SetUIActive(bool isActive) => m_Anim.SetBool(anim_IsActive, isActive);
+		public void SetUIActive(bool isActive) => m_Anim.SetBool(anim_IsActive, isActive);
         public void SetMaxHealthU(float value) => m_MaxHealth = value;
         public void RefereshHealthUI(float currentValue) => m_HealthSlider.value = currentValue / m_MaxHealth;
         public void RefreshHealthPickUpAmount(float health) => m_HealthText.text = health.ToString();

@@ -7,22 +7,22 @@ namespace Deviloper.Character
 {
     public class Vallet : MonoBehaviour
     {
-        private int m_Vallet;
-		private Action<int> m_OnMoneyUpdate;
+        private static int m_Vallet;
+		public static event Action<int> OnMoneyUpdate;
+		public static Action<int> OnMoneyUse;
 
 		private void Start()
 		{
 			m_Vallet = 0;
-			m_OnMoneyUpdate = UI.UiController.Instance.PlayerDetailUI.RefreshMoneyPickUpAmount;
-			m_OnMoneyUpdate(m_Vallet);
+			OnMoneyUpdate(m_Vallet);
 		}
 
 		public int GetCoin() => m_Vallet;
 
-		public void UseCoin(int amount)
+		public static void UseCoin(int amount)
 		{
 			m_Vallet -= amount;
-			m_OnMoneyUpdate(m_Vallet);
+			OnMoneyUpdate(m_Vallet);
 		}
 
 		private void OnTriggerEnter2D(Collider2D collision)
@@ -31,7 +31,7 @@ namespace Deviloper.Character
 			if (coinPickup)
 			{
 				m_Vallet += coinPickup.Pickup();
-				m_OnMoneyUpdate(m_Vallet);
+				OnMoneyUpdate(m_Vallet);
 				coinPickup.gameObject.SetActive(false);
 				return;
 			}

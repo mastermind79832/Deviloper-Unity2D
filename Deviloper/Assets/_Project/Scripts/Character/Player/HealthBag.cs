@@ -14,13 +14,12 @@ namespace Deviloper.Character
 		[SerializeField] private float m_HealingInterval;
 
 		private Coroutine m_HealingRoutine;
-		private Action<float> m_OnHealthUpdate;
+		public static event Action<float> OnHealthUpdate;
 
 		private void Start()
 		{
 			m_HealthBag = 0;
-			m_OnHealthUpdate = UI.UiController.Instance.PlayerDetailUI.RefreshHealthPickUpAmount;
-			m_OnHealthUpdate(m_HealthBag);
+			OnHealthUpdate(m_HealthBag);
 		}
 
 		private void OnTriggerEnter2D(Collider2D collision)
@@ -28,7 +27,7 @@ namespace Deviloper.Character
 			if (collision.TryGetComponent(out HealthPickup healthPickup))
 			{
 				m_HealthBag += healthPickup.Pickup();
-				m_OnHealthUpdate(m_HealthBag);
+				OnHealthUpdate(m_HealthBag);
 				healthPickup.gameObject.SetActive(false);
 			}
 
@@ -72,7 +71,7 @@ namespace Deviloper.Character
 				m_HealthBag -= m_HealAmount;
 			}
 
-			m_OnHealthUpdate(m_HealthBag);
+			OnHealthUpdate(m_HealthBag);
 
 			return effectiveHealing;
 		}
