@@ -1,6 +1,7 @@
 using UnityEngine;
 using Deviloper.Core;
 using Deviloper.Character;
+using System;
 
 namespace Deviloper.Ability.Aimbot
 {
@@ -8,11 +9,24 @@ namespace Deviloper.Ability.Aimbot
     {
 		[SerializeField] private float m_Damage;
         [SerializeField] private float m_Speed;
+		[SerializeField] private float m_MaxTimer;
         private Vector2 m_Direction = Vector2.zero;
 
+		public Action<ProjectileController> OnDisableBullet;
+
+		private float m_Timer;
+	
+
+		private void OnEnable()
+		{
+			m_Timer = m_MaxTimer;
+		}
 
 		private void FixedUpdate()
 		{
+			m_Timer -= Time.fixedDeltaTime;
+			if (m_Timer <= 0)
+				gameObject.SetActive(false);
 			MoveProjectile();
 		}
 
@@ -26,7 +40,7 @@ namespace Deviloper.Ability.Aimbot
 			if(collision.GetComponent<EnemyController>() != null)
 			{
 				collision.GetComponent<IDamageable>().TakeDamage(m_Damage);
-				Destroy(gameObject);
+				gameObject.SetActive(false);
 			}
 		}
 
@@ -35,6 +49,11 @@ namespace Deviloper.Ability.Aimbot
 			m_Speed = _speed;
 			m_Damage = _damage;
 			m_Direction = _direction;
+		}
+
+		private void OnDisable()
+		{
+			OnDisableBullet(this);
 		}
 	}
 }

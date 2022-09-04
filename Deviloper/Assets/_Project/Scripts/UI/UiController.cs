@@ -10,7 +10,8 @@ namespace Deviloper.UI
     {
 		[SerializeField] private Animator m_TitleAnimator;
 		[SerializeField] private GameObject m_EndPanel;
-		private readonly int anim_IsTitleActive = Animator.StringToHash("IsActive");
+		[SerializeField] private Animator m_StageAnimator;
+		private readonly int anim_IsActive = Animator.StringToHash("IsActive");
 		public PlayerDetailUI PlayerDetailUI;
 
 		public bool isGameOver;
@@ -27,7 +28,8 @@ namespace Deviloper.UI
 
 		private void TitlePanelActive(bool isActive)
 		{
-			m_TitleAnimator.SetBool(anim_IsTitleActive, isActive);
+			m_TitleAnimator.SetBool(anim_IsActive, isActive);
+			m_StageAnimator.SetBool(anim_IsActive, !isActive);
 		}
 
 		private void Update()

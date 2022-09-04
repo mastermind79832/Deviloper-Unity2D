@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Deviloper.Ability
@@ -26,6 +24,8 @@ namespace Deviloper.Ability
 
 		protected virtual void Upgrade()
 		{
+			if (!IsMoneyEnough())
+				return;
 			Character.Vallet.UseCoin(m_UpgradeAmount);
 			m_UpgradeAmount *= 2 ;
 			m_Level ++;
@@ -36,8 +36,10 @@ namespace Deviloper.Ability
 	
 		private void IsUpgradePossible(int money)
 		{
-			m_UpgradeUI.SetInteractable(money >= m_UpgradeAmount);
+			m_UpgradeUI.SetInteractable(IsMoneyEnough());
 		}
+
+		private bool IsMoneyEnough() =>  Character.Vallet.GetCoin() >= m_UpgradeAmount;
 
 	}
 }

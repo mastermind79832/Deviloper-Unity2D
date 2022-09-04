@@ -5,6 +5,7 @@ using Deviloper.Stage;
 using Deviloper.Character;
 using Deviloper.Service.Character;
 using Deviloper.UI;
+using TMPro;
 
 namespace Deviloper.Service.Stage
 {
@@ -21,6 +22,8 @@ namespace Deviloper.Service.Stage
 
 		private CharacterService characterService;
 
+		[SerializeField] private TextMeshProUGUI m_StageText;
+
 		private void Start()
 		{
 			characterService = CharacterService.Instance;
@@ -34,6 +37,7 @@ namespace Deviloper.Service.Stage
 			m_CurrentStageIndex = 0;
 			m_CurrentStageLevel = 1;
 			m_CurrentStage.SetNewStage(m_CurrentStageLevel, stages[m_CurrentStageIndex]);
+			UpdateStageNumberText();
 		}
 
 		private void Update()
@@ -68,6 +72,12 @@ namespace Deviloper.Service.Stage
 			}
 
 			m_CurrentStage.SetNewStage(m_CurrentStageLevel, stages[m_CurrentStageIndex]);
+			UpdateStageNumberText();
+		}
+
+		private void UpdateStageNumberText()
+		{
+			m_StageText.text = $"STAGE : {m_CurrentStageLevel}";
 		}
 	}
 }

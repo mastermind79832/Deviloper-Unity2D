@@ -16,6 +16,7 @@ namespace Deviloper.Ability.Aimbot
 		[SerializeField] private float m_Range;
 
 		[SerializeField] private Transform m_ProjectileCollection;
+		private ObjectPool<ProjectileController> m_ProjectilePool;
 
 		private float m_Timer;
 		private List<EnemyController> m_Enemies;
@@ -29,6 +30,7 @@ namespace Deviloper.Ability.Aimbot
 			m_Detail_3 = "Range";
 			base.Start();
 			m_Player = CharacterService.Instance.GetPlayerTransform();
+			m_ProjectilePool = new();
 		}
 
 		private void Update()
@@ -61,9 +63,27 @@ namespace Deviloper.Ability.Aimbot
 			return Vector2.Distance(Enemy.transform.position, transform.position) <= m_Range && !Enemy.isDead;
 		}
 
+		private ProjectileController ProjectileFactory()
+		{
+			ProjectileController projectile;
+			if (m_ProjectilePool.IsEmpty())
+			{
+				projectile = Instantiate(m_ProjectilePrefab, transform.position, transform.rotation);
+				projectile.OnDisableBullet = m_ProjectilePool.SetItem;
+			}
+			else
+			{
+				projectile = m_ProjectilePool.GetItem();
+				projectile.transform.position = transform.position;
+				projectile.gameObject.SetActive(true);
+			}
+
+			return projectile;
+		}
+
 		private void CreateProjectile(EnemyController Enemy)
 		{
-			ProjectileController projectile = Instantiate(m_ProjectilePrefab, transform.position, transform.rotation);
+			ProjectileController projectile = ProjectileFactory();
 			Vector2 predictDirection = GetRequiredDirection(Enemy);
 			projectile.SetProperties(m_ProjectileSpeed, m_ProjectileDamage, predictDirection);
 			projectile.transform.SetParent(m_ProjectileCollection);
