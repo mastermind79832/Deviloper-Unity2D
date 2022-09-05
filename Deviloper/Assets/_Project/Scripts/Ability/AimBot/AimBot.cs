@@ -181,7 +181,6 @@ namespace Deviloper.Ability.Aimbot
 			m_ProjectileDamage += 0.2f;
 			m_FireInterval -= 0.1f;
 			m_Range += 0.3f;
-			base.Upgrade();
 		}
 	}
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Stage1
   m_EditorClassIdentifier: 
   level: 1
-  enemyCount: 20
+  enemyCount: 30
   enemyList: 00000000
-  enemySpawnInterval: 1
-  nextStageTimeOut: 2
+  enemySpawnInterval: 0.5
+  nextStageTimeOut: 1

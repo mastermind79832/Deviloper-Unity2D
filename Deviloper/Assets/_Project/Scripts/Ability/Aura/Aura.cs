@@ -32,7 +32,6 @@ namespace Deviloper.Ability.Aura
 		protected override void Upgrade()
 		{
 			m_Damage += 0.5f;
-			base.Upgrade();
 		}
 	}
 }

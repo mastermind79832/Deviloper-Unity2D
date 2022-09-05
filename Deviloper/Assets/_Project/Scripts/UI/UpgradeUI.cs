@@ -48,7 +48,6 @@ namespace Deviloper.UI
 		}
 
 		private void SetMoney(float amount) => m_MoneyAmount.text = $"{m_MoneySymbol}{amount}";
-	
 
 		public void SetInteractable(bool isInteractable)
 		{

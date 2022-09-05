@@ -14,7 +14,7 @@ namespace Deviloper.Character
 		private void Start()
 		{
 			m_Vallet = 0;
-			OnMoneyUpdate(m_Vallet);
+			OnMoneyUpdate?.Invoke(m_Vallet);
 		}
 
 		public static int GetCoin() => m_Vallet;

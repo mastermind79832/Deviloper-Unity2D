@@ -17,21 +17,23 @@ namespace Deviloper.Ability
 
 		protected virtual void Start()
 		{
-			m_UpgradeUI.InitializeUI(m_AbilityName, m_Detail_1, m_Detail_2, m_Detail_3, Upgrade);
+			m_UpgradeUI.InitializeUI(m_AbilityName, m_Detail_1, m_Detail_2, m_Detail_3, UpgradeAll);
 			Character.Vallet.OnMoneyUpdate += IsUpgradePossible;
 			UpdateUI();
 		}
 
-		protected virtual void Upgrade()
+		protected void UpgradeAll()
 		{
 			if (!IsMoneyEnough())
 				return;
 			Character.Vallet.UseCoin(m_UpgradeAmount);
+			Upgrade();
 			m_UpgradeAmount *= 2 ;
 			m_Level ++;
 			UpdateUI();
 		}
 
+		protected abstract void Upgrade();
 		protected abstract void UpdateUI();
 	
 		private void IsUpgradePossible(int money)
@@ -41,5 +43,9 @@ namespace Deviloper.Ability
 
 		private bool IsMoneyEnough() =>  Character.Vallet.GetCoin() >= m_UpgradeAmount;
 
+		private void OnDisable()
+		{
+			Character.Vallet.OnMoneyUpdate -= IsUpgradePossible;
+		}
 	}
 }

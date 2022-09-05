@@ -4,11 +4,10 @@ using Deviloper.Core;
 
 namespace Deviloper.Stronghold
 {
-    public class StrongholdController : MonoBehaviour,IDamageable
+    public class StrongholdController : MonoSingletonGeneric<StrongholdController>,IDamageable
     {
 		[SerializeField] private float m_MaxHealth;
         private float m_Health;
-		private Collider2D m_Collider;
 
 		private Action<float> m_OnHeathUpdate;
 
@@ -16,7 +15,6 @@ namespace Deviloper.Stronghold
 			
 		private void Start()
 		{
-			m_Collider = GetComponent<Collider2D>();
 			m_Health = m_MaxHealth;
 			IsDefenceEnabled = true;
 			UI.UiController.Instance.PlayerDetailUI.SetMaxHealthU(m_MaxHealth);

@@ -13,14 +13,34 @@ namespace Deviloper.Character
 		[SerializeField] private float m_HealAmount; // health/Sec
 		[SerializeField] private float m_HealingInterval;
 
-		private Coroutine m_HealingRoutine;
+		private bool m_InStrongHold;
+		private float m_HealTimer;
+		private StrongholdController stronghold;
 		public static event Action<float> OnHealthUpdate;
 
 		private void Start()
 		{
+			stronghold = StrongholdController.Instance;
 			m_HealthBag = 0;
+			m_InStrongHold = false;
 			OnHealthUpdate(m_HealthBag);
 		}
+
+		private void Update()
+		{
+			if (IsHealPossible())
+			{
+				DecreaseTimer();
+				if (m_HealTimer < 0)
+				{
+					m_HealTimer = m_HealingInterval;
+					stronghold.Heal(GetEffectiveHealing());
+				}
+			}
+		}
+
+		private bool IsHealPossible() => m_InStrongHold && m_HealthBag > 0 && !stronghold.IsHealthFull();
+		private void DecreaseTimer() =>	m_HealTimer -= Time.deltaTime;		
 
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
@@ -32,35 +52,19 @@ namespace Deviloper.Character
 			}
 
 			if (collision.TryGetComponent(out StrongholdController stronghold))
-			{
-				if (m_HealthBag > 0)
-				{
-					m_HealingRoutine = StartCoroutine(HealStronghold(stronghold));
-				}
-			}
+				m_InStrongHold = true;
+			
 		}
 		private void OnTriggerExit2D(Collider2D collision)
 		{
-			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
-			if (stronghold && m_HealingRoutine!= null)
-			{
-				StopCoroutine(m_HealingRoutine);
-			}
-		}
-
-		IEnumerator HealStronghold(StrongholdController stronghold)
-		{
-			while(m_HealthBag > 0 & !stronghold.IsHealthFull())
-			{
-				yield return new WaitForSeconds(m_HealingInterval);
-				stronghold.Heal(GetEffectiveHealing());
-			}
+			if (collision.TryGetComponent(out StrongholdController stronghold))
+				m_InStrongHold = false;
 		}
 
 		private float GetEffectiveHealing()
 		{
-			float effectiveHealing = 0;
-			if(m_HealthBag < m_HealAmount)
+			float effectiveHealing;
+			if (m_HealthBag < m_HealAmount)
 			{
 				effectiveHealing = m_HealthBag;
 				m_HealthBag = 0;

@@ -15,5 +15,5 @@ MonoBehaviour:
   level: 3
   enemyCount: 30
   enemyList: 0100000000000000
-  enemySpawnInterval: 0.5
-  nextStageTimeOut: 2
+  enemySpawnInterval: 0.3
+  nextStageTimeOut: 1

@@ -37,7 +37,6 @@ namespace Deviloper.Ability.ElectricFence
 		{
 			m_Damage += 0.3f;
 			m_SlowDownMultiplier += 0.2f;
-			base.Upgrade();
 		}
 	}
 }

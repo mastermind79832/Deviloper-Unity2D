@@ -113,7 +113,7 @@ namespace Deviloper.Character
 			m_Rb.AddTorque(200f);
 			explosion.gameObject.SetActive(true);
 			explosion.Play();
-			yield return new WaitForSeconds(explosion.main.duration);
+			yield return new WaitForSeconds(explosion.main.duration - 0.1f);
 			explosion.gameObject.SetActive(false);
 			transform.position = transform.parent.position;
 			gameObject.SetActive(false);
