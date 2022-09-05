@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Deviloper.Pickup
+namespace Deviloper.Core
 {
 	[System.Serializable]
 	public class ObjectPool<T>

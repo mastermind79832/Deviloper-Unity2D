@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Deviloper.UI;
 
 namespace Deviloper.Character
 {
@@ -11,10 +12,10 @@ namespace Deviloper.Character
 
 		[Header("Movement Properties")]
 		[Range(2,25)]
-        public float moveSpeed;
+		[SerializeField] private float m_MoveSpeed;
         private Vector2 m_MoveDirection;
 		
-		private Rigidbody2D rb;
+		private Rigidbody2D m_Rb;
 
 		private void Start()
 		{
@@ -23,12 +24,13 @@ namespace Deviloper.Character
 		private void Initialize()
 		{
 			m_Level = 1;
-			rb = GetComponent<Rigidbody2D>();
+			m_Rb = GetComponent<Rigidbody2D>();
 		}
 
 		private void Update()
 		{
-			GetInput();
+			if(UiController.Instance.isGamePlaying)
+				GetInput();
 		}
 
 		private void FixedUpdate()
@@ -40,17 +42,26 @@ namespace Deviloper.Character
 		{
 			Vector2 EffectiveMovement = GetEffectiveMoveSpeed() * Time.fixedDeltaTime * m_MoveDirection;
 			Vector2 movePosition = (Vector2)transform.position + EffectiveMovement;
-			rb.MovePosition(movePosition);
+			m_Rb.MovePosition(movePosition);
 		}
 
 		private float GetEffectiveMoveSpeed()
 		{
-			return moveSpeed + (m_Level / 5);
+			return m_MoveSpeed + (m_Level / 5);
 		}
 
 		private void GetInput()
 		{
 			m_MoveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+		}
+
+		private void OnCollisionEnter2D(Collision2D collision)
+		{
+
+			if (collision.transform.TryGetComponent(out EnemyController enemy))
+			{
+				UiController.Instance.GameOver();
+			}
 		}
 	}
 }

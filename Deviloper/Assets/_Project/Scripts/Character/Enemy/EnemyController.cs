@@ -1,15 +1,18 @@
+using System.Collections;
 using UnityEngine;
 using Deviloper.Service.Character;
 using Deviloper.Core;
 using Deviloper.Pickup;
 using Deviloper.Stronghold;
+using Deviloper.UI;
 
 namespace Deviloper.Character
 {
 	[RequireComponent(typeof(Rigidbody2D))]
     public class EnemyController : MonoBehaviour,IDamageable
     {
-		public EnemyTypeSO enemyBaseStats;
+		[SerializeField] private EnemyTypeSO enemyBaseStats;
+		public EnemyType Type { get; set; }
 
 		private float m_Health;
 		private float m_Speed;
@@ -19,12 +22,30 @@ namespace Deviloper.Character
 		private Rigidbody2D m_Rb;
 		private Transform player;
 		private PickupFactory pickupFactory;
+		private ParticleSystem explosion;
+		private Collider2D m_Collider;
+		private SpriteRenderer m_Sprite;
+		public bool isDead;
 
+		private void OnEnable()
+		{
+			isDead = false;
+		}
+		
 		private void Start()
+		{
+			Initilize();
+		}
+
+		private void Initilize()
 		{
 			m_Rb = GetComponent<Rigidbody2D>();
 			player = CharacterService.Instance.GetPlayerTransform();
 			pickupFactory = PickupFactory.Instance;
+			explosion = transform.GetChild(0).GetComponent<ParticleSystem>();
+			explosion.gameObject.SetActive(false);
+			m_Collider = GetComponent<Collider2D>();
+			m_Sprite = GetComponent<SpriteRenderer>();
 		}
 
 		public void SetStats(int stageLevel)
@@ -35,20 +56,28 @@ namespace Deviloper.Character
 			m_Damage = enemyBaseStats.baseDamage + (m_Level * 3f);
 		}
 
+		public float GetSpeed() => m_Speed;	
+		public void SlowDown(float value) => m_Speed /= value;
+
 		private void FixedUpdate()
 		{
-			MoveToPlayer();
+			if(UiController.Instance.isGamePlaying)
+				MoveToPlayer();
 		}
 
 		private void MoveToPlayer()
 		{
-			m_Rb.MovePosition(
-				Vector2.MoveTowards(transform.position, player.position, m_Speed * Time.deltaTime));
+			if(!isDead)
+				m_Rb.MovePosition(Vector2.MoveTowards(transform.position, player.position, m_Speed * Time.deltaTime));
 		}
 
 		public void TakeDamage(float damage)
 		{
 			m_Health -= damage;
+			if(m_Health <= 0)
+			{
+				ActivateDeath();
+			}
 		}
 
 		private void OnTriggerEnter2D(Collider2D collision)
@@ -56,14 +85,38 @@ namespace Deviloper.Character
 			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
 			if (stronghold)
 			{
-				if (!stronghold.isDefenceEnabled)
+				if (!stronghold.IsDefenceEnabled)
 					return;
 				//You can use Observer Pattern here.
 				stronghold.TakeDamage(m_Damage);
-				CharacterService.Instance.EnemyDeath(this);
-				DropPickup();
-				Destroy(gameObject);
+				ActivateDeath();
 			}
+		}
+		private void OnDisable()
+		{
+			m_Collider.enabled = true;
+			m_Sprite.enabled = true;
+			CharacterService.Instance.EnemyDeath(this);
+		}
+		
+		public void ActivateDeath()
+		{
+			isDead = true;
+			m_Collider.enabled = false;
+			m_Sprite.enabled = false;
+			StartCoroutine(Explode());
+		}
+
+		private IEnumerator Explode()
+		{
+			DropPickup();
+			m_Rb.AddTorque(200f);
+			explosion.gameObject.SetActive(true);
+			explosion.Play();
+			yield return new WaitForSeconds(explosion.main.duration - 0.1f);
+			explosion.gameObject.SetActive(false);
+			transform.position = transform.parent.position;
+			gameObject.SetActive(false);
 		}
 
 		private void DropPickup()
@@ -82,7 +135,7 @@ namespace Deviloper.Character
 		{
 			if(pickupType == PickupType.Coin)
 			{
-				int coinAmount = (int)m_Health;
+				int coinAmount = (int)enemyBaseStats.baseHealth;
 				pickupFactory.CreatePickup(coinAmount, transform.position);
 			}
 			else if(pickupType == PickupType.Health)

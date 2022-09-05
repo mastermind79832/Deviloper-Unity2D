@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Deviloper.Core;
-using Deviloper.stage;
+using Deviloper.Stage;
 using Deviloper.Character;
 using Deviloper.Service.Character;
+using Deviloper.UI;
+using TMPro;
 
 namespace Deviloper.Service.Stage
 {
@@ -14,12 +16,13 @@ namespace Deviloper.Service.Stage
 		[Tooltip("The stage property will be used unity next stage level is encountered. element 0 is bydefault for level 1")]
         public List<StagePropertiesSO> stages;
 
-		[SerializeField]
-        private StageController m_CurrentStage;
+		[SerializeField] private StageController m_CurrentStage;
 		private int m_CurrentStageLevel;
 		private int m_CurrentStageIndex;
 
 		private CharacterService characterService;
+
+		[SerializeField] private TextMeshProUGUI m_StageText;
 
 		private void Start()
 		{
@@ -34,10 +37,14 @@ namespace Deviloper.Service.Stage
 			m_CurrentStageIndex = 0;
 			m_CurrentStageLevel = 1;
 			m_CurrentStage.SetNewStage(m_CurrentStageLevel, stages[m_CurrentStageIndex]);
+			UpdateStageNumberText();
 		}
 
 		private void Update()
 		{
+			if(!UiController.Instance.isGamePlaying)
+				return;
+
 			if (characterService.IsEnemyListEmpty() && m_CurrentStage.IsEnemyOver())
 			{
 				m_CurrentStage.WaitForNextStage();
@@ -55,12 +62,22 @@ namespace Deviloper.Service.Stage
 		public void StartNextStage()
 		{
 			m_CurrentStageLevel++;
-			if (m_CurrentStageLevel == stages[m_CurrentStageIndex].level)
+
+			if (m_CurrentStageIndex + 1 < stages.Count)
 			{
-				m_CurrentStageIndex++;
+				if (m_CurrentStageLevel == stages[m_CurrentStageIndex + 1].level)
+				{
+					m_CurrentStageIndex++;
+				}
 			}
 
 			m_CurrentStage.SetNewStage(m_CurrentStageLevel, stages[m_CurrentStageIndex]);
+			UpdateStageNumberText();
+		}
+
+		private void UpdateStageNumberText()
+		{
+			m_StageText.text = $"STAGE : {m_CurrentStageLevel}";
 		}
 	}
 }

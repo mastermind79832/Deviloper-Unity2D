@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Deviloper.Core;
 
 namespace Deviloper.Character
 {
@@ -11,24 +12,54 @@ namespace Deviloper.Character
         public PlayerController playerPrefab;
 
         [System.Serializable]
-        public struct EnemyTypePair
+        public class EnemyTypePair
         {
             public EnemyType type;
             public EnemyController controller;
+            public ObjectPool<EnemyController> pool;
+
+            EnemyTypePair() =>
+                pool = new ObjectPool<EnemyController>();
         }
         [Header("Enemy")]
+        public Transform enemyCollection;
         public List<EnemyTypePair> enemyPrefabs;
 	
         public PlayerController CreatePlayer(Transform location)
 		{
-            return Instantiate(playerPrefab,location.position,location.rotation);
+            PlayerController newPlayer = Instantiate(playerPrefab, location.position, location.rotation);
+            newPlayer.transform.SetParent(location);
+            return newPlayer;
 		}
 
         public EnemyController CreateEnemy(Vector2 location,EnemyType enemyType)
 		{
-            // add enemy pooling here
-            EnemyController enemyPreafb = GetEnemyTypePrefab(enemyType);
-            return Instantiate(enemyPreafb, location, Quaternion.identity);
+            EnemyTypePair enemyTypePair = GetEnemytypePair(enemyType);
+            EnemyController newEnemy;
+            if (enemyTypePair.pool.IsEmpty())
+			{
+                newEnemy = Instantiate(GetEnemyTypePrefab(enemyType), location, Quaternion.identity);
+                newEnemy.Type = enemyType;
+                newEnemy.transform.SetParent(enemyCollection);
+            }
+            else
+			{
+                newEnemy = enemyTypePair.pool.GetItem();
+                newEnemy.transform.position = location;
+                newEnemy.gameObject.SetActive(true);
+			}
+            return newEnemy;
+        }
+
+		private EnemyTypePair GetEnemytypePair(EnemyType enemyType)
+		{
+            foreach (EnemyTypePair enemyPair in enemyPrefabs)
+            {
+                if (enemyPair.type == enemyType)
+                    return enemyPair;
+            }
+
+            return enemyPrefabs[0];
         }
 
 		private EnemyController GetEnemyTypePrefab(EnemyType enemyType)
@@ -41,6 +72,12 @@ namespace Deviloper.Character
             // If enemy type not found. Then spawn first one
             return enemyPrefabs[0].controller;
 		}
+
+        public void BackToPool(EnemyController enemy)
+		{
+            EnemyTypePair enemyTypePair = GetEnemytypePair(enemy.Type);
+            enemyTypePair.pool.SetItem(enemy);
+        }
 	}
 }
    

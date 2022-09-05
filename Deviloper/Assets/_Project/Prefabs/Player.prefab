@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32de2c70fd8bf86469464b4a8f12de2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  m_MoveSpeed: 3
 --- !u!114 &1211905759231511999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,8 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c44765259618c4e438145f91ec63f4dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healAmount: 0.5
-  healingInterval: 0.2
+  m_HealAmount: 0.5
+  m_HealingInterval: 0.1
 --- !u!114 &-4400904457494462543
 MonoBehaviour:
   m_ObjectHideFlags: 0

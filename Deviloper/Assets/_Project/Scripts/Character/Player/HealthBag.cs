@@ -10,65 +10,72 @@ namespace Deviloper.Character
     public class HealthBag : MonoBehaviour
     {
 		private float m_HealthBag;
-		public float healAmount; // health/Sec
-		public float healingInterval;
+		[SerializeField] private float m_HealAmount; // health/Sec
+		[SerializeField] private float m_HealingInterval;
 
-		private Coroutine m_HealingRoutine;
+		private bool m_InStrongHold;
+		private float m_HealTimer;
+		private StrongholdController stronghold;
+		public static event Action<float> OnHealthUpdate;
 
 		private void Start()
 		{
+			stronghold = StrongholdController.Instance;
 			m_HealthBag = 0;
+			m_InStrongHold = false;
+			OnHealthUpdate(m_HealthBag);
 		}
 
-		private void OnTriggerEnter2D(Collider2D collision)
+		private void Update()
 		{
-			HealthPickup healthPickup = collision.GetComponent<HealthPickup>();
-			if (healthPickup)
+			if (IsHealPossible())
 			{
-				m_HealthBag += healthPickup.Pickup();
-				healthPickup.gameObject.SetActive(false);
-			}
-
-			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
-			if (stronghold)
-			{
-				if (m_HealthBag > 0)
+				DecreaseTimer();
+				if (m_HealTimer < 0)
 				{
-					m_HealingRoutine = StartCoroutine(HealStronghold(stronghold));
+					m_HealTimer = m_HealingInterval;
+					stronghold.Heal(GetEffectiveHealing());
 				}
 			}
 		}
+
+		private bool IsHealPossible() => m_InStrongHold && m_HealthBag > 0 && !stronghold.IsHealthFull();
+		private void DecreaseTimer() =>	m_HealTimer -= Time.deltaTime;		
+
+		private void OnTriggerEnter2D(Collider2D collision)
+		{
+			if (collision.TryGetComponent(out HealthPickup healthPickup))
+			{
+				m_HealthBag += healthPickup.Pickup();
+				OnHealthUpdate(m_HealthBag);
+				healthPickup.gameObject.SetActive(false);
+			}
+
+			if (collision.TryGetComponent(out StrongholdController stronghold))
+				m_InStrongHold = true;
+			
+		}
 		private void OnTriggerExit2D(Collider2D collision)
 		{
-			StrongholdController stronghold = collision.GetComponent<StrongholdController>();
-			if (stronghold && m_HealingRoutine!= null)
-			{
-				StopCoroutine(m_HealingRoutine);
-			}
-		}
-
-		IEnumerator HealStronghold(StrongholdController stronghold)
-		{
-			while(m_HealthBag > 0 & !stronghold.IsHealthFull())
-			{
-				yield return new WaitForSeconds(healingInterval);
-				stronghold.Heal(GetEffectiveHealing());
-			}
+			if (collision.TryGetComponent(out StrongholdController stronghold))
+				m_InStrongHold = false;
 		}
 
 		private float GetEffectiveHealing()
 		{
-			float effectiveHealing = 0;
-			if(m_HealthBag < healAmount)
+			float effectiveHealing;
+			if (m_HealthBag < m_HealAmount)
 			{
 				effectiveHealing = m_HealthBag;
 				m_HealthBag = 0;
 			}
 			else
 			{
-				effectiveHealing = healAmount;
-				m_HealthBag -= healAmount;
+				effectiveHealing = m_HealAmount;
+				m_HealthBag -= m_HealAmount;
 			}
+
+			OnHealthUpdate(m_HealthBag);
 
 			return effectiveHealing;
 		}
