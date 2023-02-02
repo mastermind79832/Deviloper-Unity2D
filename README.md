@@ -30,7 +30,7 @@ To upgrade, you need to go near the computer and the upgrade menu will slide in.
 - Object Pooling for bullets and enemies.
 - Powerup Upgrade System using observer pattern.
 
-#ScreenShots
+# ScreenShots
 ![ScreenShot](ScreenShots/DeviloperLogo.png)
 ![ScreenShot](ScreenShots/MainMenu.png)
 ![ScreenShot](ScreenShots/Gameplay1.png)
