@@ -41,8 +41,10 @@ namespace Deviloper.Character
 		private void MoveCharacter()
 		{
 			Vector2 EffectiveMovement = GetEffectiveMoveSpeed() * Time.fixedDeltaTime * m_MoveDirection;
-			Vector2 movePosition = (Vector2)transform.position + EffectiveMovement;
-			m_Rb.MovePosition(movePosition);
+			//Vector2 movePosition = (Vector2)transform.position + EffectiveMovement;
+
+			//Vector2 movePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			transform.Translate(EffectiveMovement);
 		}
 
 		private float GetEffectiveMoveSpeed()
@@ -52,7 +54,15 @@ namespace Deviloper.Character
 
 		private void GetInput()
 		{
-			m_MoveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+			if (Input.GetMouseButton(0))
+			{
+				Vector2 movePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				m_MoveDirection = (movePosition - (Vector2)transform.position).normalized;
+			}
+			else
+			{
+				m_MoveDirection = Vector2.zero;
+			}
 		}
 
 		private void OnCollisionEnter2D(Collision2D collision)

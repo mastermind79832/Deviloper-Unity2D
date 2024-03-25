@@ -26,6 +26,7 @@ namespace Deviloper.Service.Stage
 
 		private void Start()
 		{
+			Application.targetFrameRate = 60;
 			characterService = CharacterService.Instance;
 			InitializeFirstStage();
 		}
