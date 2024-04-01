@@ -1,5 +1,6 @@
 # Play Here
-https://adityaajith.itch.io/devilpoer
+Webgl: [itch.io/Deviloper](https://adityaajith.itch.io/devilpoer)
+Andriod: [PlayStore/Deviloper](https://play.google.com/store/apps/details?id=com.Revity.Deviloper)
 
 # Deviloper
 Survival of a lone developer. Our poor developer is disturbed by the distraction and what better way to deal with them than developing distructive weapons. Help remove all the distractions and dont let them catch you. 
